@@ -4,12 +4,77 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Journal</title>
-    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4" defer></script>
     <script src="journal.js" defer></script>
+    <style type="text/tailwindcss">
+      @font-face {
+        font-family: "Outfit";
+        src: url("assets/fonts/outfit.ttf") format("truetype");
+        font-weight: 100 900;
+        font-stretch: 75% 125%;
+        font-style: normal;
+      }
+      /* To set styling for default elements like <p>, <h1> etc. */
+      @layer base {
+        h2 {
+          @apply text-3xl;
+        }
+      }
+
+      @layer components {
+        .container {
+          @apply max-w-300 m-auto p-2;
+        }
+        .btn {
+          @apply px-4 py-2 text-center text-sm font-semibold inline-block bg-purple-800 text-white cursor-pointer uppercase transition duration-200 ease-in-out rounded-xl hover:bg-indigo-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-600 focus-visible:ring-offset-2 active:scale-95;
+        }
+        button {
+          @apply px-4 py-2 rounded-lg text-sm bg-slate-50 text-orange-500 hover:bg-transparent;
+        }
+        .cards {
+          @apply flex flex-col sm:flex-row justify-center;
+        }
+        .card {
+          @apply border w-80 h-100 p-3 m-4 rounded-xl;
+        }
+        .icons {
+          @apply w-10 h-auto p-2 mr-3 bg-purple-400 rounded-md;
+        }
+      }
+    </style>
   </head>
-  <body>
+  <body class="font-family-sans bg-gray-900 text-white">
     <header>
-      <nav></nav>
+      <section class="container flex justify-between relative border-b">
+        <div class="justify-center">logo MovieHub</div>
+        <div>
+          <nav class="justify-around">
+            <a class="btn" href="index.html">Home</a>
+            <a class="btn" href="journal.html">Favourites</a>
+          </nav>
+        </div>
+      </section>
     </header>
-  </body>
+    <main>
+      <section class="container">
+        <div class="flex flex-row justify-between p-6">
+          <div class="flex-row">
+          <img src="assets/imgs/video-camera.png" alt="video_icon" class="icons" />
+          <h2>My Favourites</h2>
+          </div>
+          <button>Clear All</button>
+        </div>
+        <div class="cards">
+          <div class="card">card1</div>
+          <div class="card">card2</div>
+          <div class="card">card3</div>
+        </div>
+        </section>
+      </section>
+    </main>
+    <footer class="container p-5">
+      <div class="flex p-2 border-t justify-center">
+        <span>© 2025 MovieHub</span>
+      </div>
+    </footer>
 </html>
