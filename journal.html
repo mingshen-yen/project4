@@ -14,19 +14,28 @@
         font-stretch: 75% 125%;
         font-style: normal;
       }
-      /* To set styling for default elements like <p>, <h1> etc. */
+
       @layer base {
         h2 {
           @apply text-3xl;
         }
+        h3 {
+          @apply text-2xl p-4;
+        }
+        p {
+          @apply text-base text-gray-500 p-4;
+        }
       }
 
       @layer components {
+        .bg-color {
+          @apply bg-gradient-to-br from-black to-blue-950;
+        }
         .container {
           @apply max-w-300 m-auto p-2;
         }
         .btn {
-          @apply px-4 py-2 text-center text-sm font-semibold inline-block bg-purple-800 text-white cursor-pointer uppercase transition duration-200 ease-in-out rounded-xl hover:bg-indigo-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-600 focus-visible:ring-offset-2 active:scale-95;
+          @apply px-5 py-2.5 m-1 text-center text-sm font-semibold inline-block bg-purple-800 opacity-85 text-purple-50 cursor-pointer uppercase transition duration-200 ease-in-out rounded-2xl hover:bg-indigo-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-600 focus-visible:ring-offset-2 active:scale-95;
         }
         button {
           @apply px-4 py-2 rounded-lg text-sm bg-slate-50 text-orange-500 hover:bg-transparent;
@@ -43,10 +52,13 @@
       }
     </style>
   </head>
-  <body class="font-family-sans bg-gray-900 text-white">
-    <header>
-      <section class="container flex justify-between relative border-b">
-        <div class="justify-center">logo MovieHub</div>
+  <body class="font-family-sans bg-color text-white">
+    <header class="bg-color">
+      <section class="container flex justify-between items-center">
+        <div>
+          <span class="pl-10 text-3xl font-bold text-purple-50"> Movie</span
+          ><span class="text-3xl font-bold text-purple-500">Hub</span>
+        </div>
         <div>
           <nav class="justify-around">
             <a class="btn" href="index.html">Home</a>
@@ -55,12 +67,20 @@
         </div>
       </section>
     </header>
-    <main>
+    <main class="bg-color">
       <section class="container">
+        <div class="flex flex-col items-center p-4 m-10">
+          <img src="assets/imgs/video-camera.png" alt="video_icon" class="w-50 h-auto" />
+          <h3>No favourites yet</h3>
+          <p>Start exploring movies and click the heart icon to add them to your favourites</p>
+          <button>Discover Movies</button>
+        </div>
+      </section>
+      <!-- <section class="container">
         <div class="flex flex-row justify-between p-6">
-          <div class="flex-row">
-          <img src="assets/imgs/video-camera.png" alt="video_icon" class="icons" />
-          <h2>My Favourites</h2>
+          <div class="flex flex-row">
+            <img src="assets/imgs/video-camera.png" alt="video_icon" class="icons" />
+            <h2>My Favourites</h2>
           </div>
           <button>Clear All</button>
         </div>
@@ -69,12 +89,12 @@
           <div class="card">card2</div>
           <div class="card">card3</div>
         </div>
-        </section>
-      </section>
+      </section> -->
     </main>
-    <footer class="container p-5">
-      <div class="flex p-2 border-t justify-center">
+    <footer class="container p-5 bg-color">
+      <div class="flex p-2 justify-center">
         <span>© 2025 MovieHub</span>
       </div>
     </footer>
+  </body>
 </html>
