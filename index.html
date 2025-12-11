@@ -4,18 +4,124 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Homepage</title>
-    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <script
+      src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"
+      defer
+    ></script>
     <script src="main.js" defer></script>
+    <style type="text/tailwindcss">
+      @font-face {
+        font-family: "Outfit";
+        src: url("assets/fonts/outfit.ttf") format("truetype");
+        font-weight: 100 900;
+        font-stretch: 75% 125%;
+        font-style: normal;
+      }
+
+      @layer base {
+        h2 {
+          @apply text-3xl;
+        }
+        h3 {
+          @apply text-2xl p-4;
+        }
+        p {
+          @apply text-base text-gray-500 pb-4;
+        }
+      }
+
+      @layer components {
+        .bg-color {
+          @apply bg-gradient-to-br from-black to-blue-950;
+        }
+        .container {
+          @apply max-w-300 m-auto p-2;
+        }
+        .btn {
+          @apply px-5 py-2.5 m-1 text-center text-sm font-semibold inline-block bg-purple-800 opacity-85 text-purple-50 cursor-pointer uppercase transition duration-200 ease-in-out rounded-2xl hover:bg-indigo-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-600 focus-visible:ring-offset-2 active:scale-95;
+        }
+        button {
+          @apply px-4 py-2.5 rounded-2xl text-sm font-semibold bg-purple-200 text-purple-800 hover:opacity-60;
+        }
+        .cards {
+          @apply flex flex-col sm:flex-row justify-center;
+        }
+        .card {
+          @apply border w-80 h-100 p-3 m-4 rounded-xl;
+        }
+        .icons {
+          @apply w-10 h-auto p-2 mr-3 bg-purple-300 rounded-md;
+        }
+      }
+    </style>
   </head>
-  <body>
-    <header>
-      <nav></nav>
+  <body class="font-family-sans bg-color text-white">
+    <header class="bg-color">
+      <section class="container flex justify-between items-center">
+        <div>
+          <span class="pl-10 text-3xl font-bold text-purple-50"> Movie</span
+          ><span class="text-3xl font-bold text-purple-500">Hub</span>
+        </div>
+        <div>
+          <nav class="justify-around">
+            <a class="btn" href="index.html">Home</a>
+            <a class="btn" href="journal.html">Favourites</a>
+          </nav>
+        </div>
+      </section>
     </header>
     <main>
-      <!-- trending section -->
-      <section id="trendingMovies" class="p4 bg-gray-900">
+ <section
+        id="hero"
+        class="container mx-auto px-4 md:px-8 lg:px-12 bg-slate-900"
+      >
+        <div
+          id="heroContainer"
+          class="flex flex-col justify-center items-center"
+        >
+          <h4
+            class="text-center m-8 pt-2 pb-2 pr-2 pl-2 mb-4 w-fit text-violet-300 bg-indigo-950 border rounded-full border-violet-900 lg:mt-16"
+          >
+            Discover Amazing Movies
+          </h4>
+          <p
+            class="text-center text-3xl font-bold text-white font-bold lg:text-5xl"
+          >
+            Find Your Next
+          </p>
+          <p class="text-center text-3xl text-pink-400 font-bold lg:text-5xl">
+            Favourite Movie
+          </p>
+          <p class="text-center text-gray-400 pt-4 pb-8 m-4 lg:m-8">
+            Search through thousands of movies, save your favourites, and never
+            miss a great film again
+          </p>
+
+          <div
+            id="searchToolbar"
+            class="flex flex-row text-center text-gray-400 pt-4 m-8 lg:m-16"
+          >
+            <input
+              type="text"
+              id="searchInput"
+              placeholder="search for movies"
+              class="border rounded-md p-1"
+            />
+
+            <button
+              id="searchBtn"
+              class="bg-purple-400 text-indigo-950 p-1 pr-3 pl-3 rounded-md hover:text-fuchsia-200 hover:bg-purple-500"
+            >
+              search
+            </button>
+          </div>
+        </div>
+      </section>
+
+   <!-- trending section -->
+      <section id="trendingMovies" class="container  ">
         <h2
-          class="text-bold text-white font-bold text-2xl p-6 lg:text-4xl mb-4 before:content-['\1f51D']"
+          class="text-bold text-white font-bold text-2xl p-6 lg:text-4xl mb-4 before:content-['\1f51D'] before:text-4xl before:rounded-full"
         >
           Trending Movies
         </h2>
@@ -24,6 +130,30 @@
           class="grid gap-4 md:grid-cols-4 lg:grid-cols-6"
         ></div>
       </section>
+
+      <section class="container" id="clasic">
+        <div class="flex flex-row p-4">
+          <img
+            src="assets/imgs/video-camera.png"
+            alt="video_icon"
+            class="icons"
+          />
+          <h2>Classics</h2>
+        </div>
+        <div class="cards">
+          <div class="card">card1</div>
+          <div class="card">card2</div>
+          <div class="card">card3</div>
+        </div>
+      </section>
+
     </main>
+      <footer class="container p-5 bg-color">
+      <div class="flex p-2 justify-center">
+        <span>© 2025 MovieHub</span>
+      </div>
+    </footer>
+  </body>
+</html>
   </body>
 </html>
