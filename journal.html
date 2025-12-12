@@ -4,10 +4,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Journal</title>
-    <script
-      src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"
-      defer
-    ></script>
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4" defer></script>
     <script src="journal.js" defer></script>
     <style type="text/tailwindcss">
       @font-face {
@@ -20,13 +17,13 @@
 
       @layer base {
         h2 {
-          @apply text-3xl;
+          @apply text-4xl font-bold lg:text-5xl;
         }
         h3 {
-          @apply text-2xl p-4;
+          @apply text-2xl font-bold lg:text-3xl;
         }
         p {
-          @apply text-base text-gray-500 pb-4;
+          @apply text-base text-gray-500 p-4 text-center;
         }
       }
 
@@ -50,7 +47,7 @@
           @apply border w-80 h-100 p-3 m-4 rounded-xl;
         }
         .icons {
-          @apply w-10 h-auto p-2 mr-3 bg-purple-300 rounded-md;
+          @apply w-10 h-auto p-2 rounded-md;
         }
       }
     </style>
@@ -70,37 +67,28 @@
         </div>
       </section>
     </header>
-    <div class="container p-4 flex">
-      <h1
-        id="Favorites"
-        class="text-3xl font-bold text-gray-600 before:content-['\1f49a']"
-      >
-        My Favourites
-      </h1>
-      <p id="FavoriteNum" class="p-1"></p>
-      <button id="removeBtn" class="border rounded p-2 ml-auto bg-blue-100">
-        Remove all movies
-      </button>
-    </div>
     <main class="bg-color">
+      <div class="container p-4 flex">
+        <img src="assets/imgs/favourite.png" alt="favourite_icon" class="icons" />
+        <h3 id="Favorites">My Favourites</h3>
+        <p id="FavoriteNum" class="p-1"></p>
+        <button id="removeBtn" class="border rounded-xl px-4 ml-auto bg-blue-100">Remove all movies</button>
+      </div>
+      <section id="favourites-container" class="container cards">
+        <!-- add favourite movies here -->
+        <!-- add Personal Notes to each movie -->
+      </section>
       <section class="container">
         <div class="flex flex-col items-center p-4 m-10">
-          <img
-            src="assets/imgs/cinema.png"
-            alt="video_icon"
-            class="w-50 h-auto"
-          />
-          <h3>No favourites yet</h3>
-          <p>
-            Start exploring movies and click the heart icon to add them to your
-            favourites
-          </p>
-          <button>Discover Movies</button>
+          <img src="assets/imgs/cinema.png" alt="video_icon" class="w-50 h-auto" />
+          <h3 class="p-4">No favourites yet</h3>
+          <p>Start exploring movies and click the heart icon to add them to your favourites</p>
+          <a class="btn" href="index.html">Discover Movies</a>
         </div>
       </section>
     </main>
-    <footer class="container p-5 bg-color">
-      <div class="flex p-2 justify-center">
+    <footer class="bg-color">
+      <div class="container p-10 flex justify-center">
         <span>© 2025 MovieHub</span>
       </div>
     </footer>

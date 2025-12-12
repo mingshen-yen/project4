@@ -4,10 +4,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Homepage</title>
-    <script
-      src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"
-      defer
-    ></script>
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4" defer></script>
     <script src="main.js" defer></script>
     <style type="text/tailwindcss">
       @font-face {
@@ -20,13 +17,13 @@
 
       @layer base {
         h2 {
-          @apply text-3xl;
+          @apply text-4xl font-bold lg:text-5xl;
         }
         h3 {
-          @apply text-2xl p-4;
+          @apply text-2xl font-bold lg:text-3xl;
         }
         p {
-          @apply text-base text-gray-500 pb-4;
+          @apply text-base text-gray-500 p-4 text-center;
         }
       }
 
@@ -50,7 +47,7 @@
           @apply border w-80 h-100 p-3 m-4 rounded-xl;
         }
         .icons {
-          @apply w-10 h-auto p-2 mr-3 bg-purple-300 rounded-md;
+          @apply w-10 h-auto p-2 rounded-md;
         }
       }
     </style>
@@ -70,47 +67,20 @@
         </div>
       </section>
     </header>
-    <main>
-      <section
-        id="hero"
-        class="container mx-auto px-4 md:px-8 lg:px-12 bg-slate-900"
-      >
-        <div
-          id="heroContainer"
-          class="flex flex-col justify-center items-center"
-        >
-          <h4
-            class="text-center m-8 pt-2 pb-2 pr-2 pl-2 mb-4 w-fit text-violet-300 bg-indigo-950 border rounded-full border-violet-900 lg:mt-16"
-          >
+    <main class="bg-color">
+      <section id="hero" class="mx-auto px-4 md:px-8 lg:px-12 bg-slate-900">
+        <div id="heroContainer" class="container flex flex-col justify-center items-center p-8">
+          <h4 class="py-2 px-8 text-violet-300 bg-indigo-950 border rounded-full border-violet-900">
             Discover Amazing Movies
           </h4>
-          <p
-            class="text-center text-3xl font-bold text-white font-bold lg:text-5xl"
-          >
-            Find Your Next
-          </p>
-          <p class="text-center text-3xl text-pink-400 font-bold lg:text-5xl">
-            Favourite Movie
-          </p>
-          <p class="text-center text-gray-400 pt-4 pb-8 m-4 lg:m-8">
-            Search through thousands of movies, save your favourites, and never
-            miss a great film again
-          </p>
-
-          <div
-            id="searchToolbar"
-            class="flex flex-row text-center text-gray-400 pt-4 m-8 lg:m-16"
-          >
-            <input
-              type="text"
-              id="searchInput"
-              placeholder="search for movies"
-              class="border rounded-md p-1"
-            />
-
+          <h2 class="pt-4 text-white">Find Your Next</h2>
+          <h2 class="text-pink-400">Favourite Movie</h2>
+          <p>Search through thousands of movies, save your favourites, and never miss a great film again</p>
+          <div id="searchToolbar" class="flex flex-row text-center text-gray-400 m-8 gap-1 lg:m-16">
+            <input type="text" id="searchInput" placeholder="search for movies" class="border w-100 px-5 rounded-md" />
             <button
               id="searchBtn"
-              class="bg-purple-400 text-indigo-950 p-1 pr-3 pl-3 rounded-md hover:text-fuchsia-200 hover:bg-purple-500"
+              class="bg-purple-400 text-indigo-950 px-3 rounded-md hover:text-fuchsia-200 hover:bg-purple-500"
             >
               search
             </button>
@@ -120,35 +90,27 @@
 
       <!-- trending section -->
       <section id="trendingMovies" class="container">
-        <h2
-          class="text-bold text-white font-bold text-2xl p-6 lg:text-4xl mb-4 before:content-['\1f51D'] before:text-4xl before:rounded-full"
-        >
-          Trending Movies
-        </h2>
-        <div
-          id="card-container"
-          class="grid gap-4 md:grid-cols-4 lg:grid-cols-6"
-        ></div>
+        <div class="flex flex-row p-4 items-center">
+          <img src="assets/imgs/flame.png" alt="flame_icon" class="icons" />
+          <h3>Trending Movies</h3>
+        </div>
+
+        <div id="card-container" class="grid gap-4 md:grid-cols-4 lg:grid-cols-6"></div>
       </section>
 
-      <section class="container" id="clasic">
-        <div class="flex flex-row p-4">
-          <img
-            src="assets/imgs/video-camera.png"
-            alt="video_icon"
-            class="icons"
-          />
-          <h2>Classics</h2>
+      <section class="container" id="personal">
+        <div class="flex flex-row p-4 items-center">
+          <img src="assets/imgs/search.png" alt="search_icon" class="icons" />
+          <h3>Personal Search</h3>
         </div>
         <div class="cards">
-          <div class="card">card1</div>
-          <div class="card">card2</div>
-          <div class="card">card3</div>
+          <!-- add the new card here -->
+          <!-- <div class="card">card1</div> -->
         </div>
       </section>
     </main>
-    <footer class="container p-5 bg-color">
-      <div class="flex p-2 justify-center">
+    <footer class="bg-color">
+      <div class="container p-10 flex justify-center">
         <span>© 2025 MovieHub</span>
       </div>
     </footer>
