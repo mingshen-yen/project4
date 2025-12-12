@@ -17,14 +17,13 @@
 
       @layer base {
         h2 {
-          @apply text-3xl font-bold lg:text-5xl;
+          @apply text-4xl font-bold lg:text-5xl;
         }
         h3 {
           @apply text-2xl font-bold lg:text-3xl;
         }
-
         p {
-          @apply text-base text-gray-500 pb-4;
+          @apply text-base text-gray-500 p-4 text-center;
         }
       }
 
@@ -48,7 +47,7 @@
           @apply border w-80 h-100 p-3 m-4 rounded-xl;
         }
         .icons {
-          @apply w-10 h-auto p-2 mr-3 bg-purple-300 rounded-md;
+          @apply w-10 h-auto p-2 rounded-md;
         }
       }
     </style>
@@ -69,17 +68,15 @@
       </section>
     </header>
     <main class="bg-color">
-      <section id="hero" class="container mx-auto px-4 md:px-8 lg:px-12 bg-slate-900">
-        <div id="heroContainer" class="flex flex-col justify-center items-center">
-          <h4 class="py-2 px-5 mb-4 text-violet-300 bg-indigo-950 border rounded-full border-violet-900 lg:mt-16">
+      <section id="hero" class="mx-auto px-4 md:px-8 lg:px-12 bg-slate-900">
+        <div id="heroContainer" class="container flex flex-col justify-center items-center p-8">
+          <h4 class="py-2 px-8 text-violet-300 bg-indigo-950 border rounded-full border-violet-900">
             Discover Amazing Movies
           </h4>
-          <h2 class="text-white">Find Your Next</h2>
+          <h2 class="pt-4 text-white">Find Your Next</h2>
           <h2 class="text-pink-400">Favourite Movie</h2>
-          <p class="lg:m-8">
-            Search through thousands of movies, save your favourites, and never miss a great film again
-          </p>
-          <div id="searchToolbar" class="flex flex-row text-center text-gray-400 pt-4 m-8 gap-1 lg:m-16">
+          <p>Search through thousands of movies, save your favourites, and never miss a great film again</p>
+          <div id="searchToolbar" class="flex flex-row text-center text-gray-400 m-8 gap-1 lg:m-16">
             <input type="text" id="searchInput" placeholder="search for movies" class="border w-100 px-5 rounded-md" />
             <button
               id="searchBtn"
@@ -93,18 +90,18 @@
 
       <!-- trending section -->
       <section id="trendingMovies" class="container">
-        <h2
-          class="text-bold text-white font-bold text-2xl p-6 lg:text-4xl mb-4 before:content-['\1f51D'] before:text-4xl before:rounded-full"
-        >
-          Trending Movies
-        </h2>
+        <div class="flex flex-row p-4 items-center">
+          <img src="assets/imgs/flame.png" alt="flame_icon" class="icons" />
+          <h3>Trending Movies</h3>
+        </div>
+
         <div id="card-container" class="grid gap-4 md:grid-cols-4 lg:grid-cols-6"></div>
       </section>
 
-      <section class="container" id="clasic">
-        <div class="flex flex-row p-4">
-          <img src="assets/imgs/video-camera.png" alt="video_icon" class="icons" />
-          <h3>Classics</h3>
+      <section class="container" id="personal">
+        <div class="flex flex-row p-4 items-center">
+          <img src="assets/imgs/search.png" alt="search_icon" class="icons" />
+          <h3>Personal Search</h3>
         </div>
         <div class="cards">
           <!-- add the new card here -->
