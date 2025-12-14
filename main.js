@@ -4,6 +4,8 @@ const TMDBurl =
   "https://api.themoviedb.org/3/trending/movie/week?api_key=e88deaad2c5706752bff03d4decee143";
 
 const MovieTrendArr = [];
+
+const likedMovs = [];
 const fetchMovies = async () => {
   const response = await fetch(TMDBurl);
   const data = await response.json();
@@ -38,6 +40,7 @@ function makeMovieCards(data) {
       rate: element.vote_average.toFixed(1),
       realeaseYear: element.release_date.split("-")[0],
       type: element.media_type,
+      id: element.id,
     };
     MovieTrendArr.push(MovieObject);
     //adding info from object to card:
@@ -71,12 +74,13 @@ function makeMovieCards(data) {
     cardZ.appendChild(heart);
 
     heart.addEventListener("click", () => {
-      doOnLikeSymbol(heart);
+      doOnLikeSymbol(heart, MovieObject);
     });
   });
 }
 
-function doOnLikeSymbol(heart) {
+function doOnLikeSymbol(heart, movie) {
+  //change the color of heart
   if (heart.textContent === "\u2661") {
     heart.textContent = "\u2665";
     heart.classList.remove("text-white", "text-3xl");
@@ -87,6 +91,15 @@ function doOnLikeSymbol(heart) {
     heart.classList.add("text-white", "text-3xl");
   }
 
-  //change the color of heart
   // make an array of liked movies
+
+  const index = likedMovs.findIndex((m) => m.id === movie.id);
+
+  if (index === -1) {
+    likedMovs.push(movie);
+  } else {
+    likedMovs.splice(index, 1);
+  }
+
+  console.log(movie);
 }
