@@ -64,7 +64,8 @@ function makeMovieCards(data) {
     //adding info from object to card:
     const Title = document.createElement("p");
     Title.innerHTML = MovieObject.title;
-    Title.className = "text-white font-bold group-hover:text-purple-300";
+    Title.className =
+      "text-white font-bold group-hover:text-purple-300 text-left";
     cardZ.appendChild(Title);
 
     const year = document.createElement("span");
