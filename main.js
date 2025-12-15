@@ -1,14 +1,13 @@
 const searchResult = [];
 
 // Trending Movies
-
+let likedMovs = [];
 const TMDBurl =
   "https://api.themoviedb.org/3/trending/movie/week?api_key=e88deaad2c5706752bff03d4decee143";
 
 const MovieTrendArr = [];
 
 //let likedMovs = []; // localstorage for favorites called: likedMovies
-let likedMovs = JSON.parse(localStorage.getItem("likedMovies")) || [];
 
 const fetchMovies = async () => {
   const response = await fetch(TMDBurl);
@@ -96,6 +95,7 @@ function doOnLikeSymbol(heart, movie) {
   }
 
   // make an array of liked movies
+  likedMovs = JSON.parse(localStorage.getItem("likedMovies")) || [];
 
   const index = likedMovs.findIndex((m) => m.id === movie.id);
 
@@ -105,6 +105,6 @@ function doOnLikeSymbol(heart, movie) {
     likedMovs.splice(index, 1);
   }
 
-  // localStorage.setItem("likedMovies", JSON.stringify(likedMovs));
+  localStorage.setItem("likedMovies", JSON.stringify(likedMovs));
 }
 //-------------------------------------------------------functions(zeinab)
