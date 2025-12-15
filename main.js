@@ -1,9 +1,7 @@
+//-----------------------------global vars
 const searchResult = [];
-const MovieTrendArr = [];
 let likedMovs = [];
-// localstorage for favorites called: likedMovies
-
-const TMDBurl = "https://api.themoviedb.org/3/trending/movie/week?api_key=e88deaad2c5706752bff03d4decee143";
+//-----------------------------global vars
 
 const apiToken = "e88deaad2c5706752bff03d4decee143";
 const page = 1;
@@ -115,7 +113,7 @@ function makeMovieCards(data) {
     cardZ.appendChild(posterMovie);
     trendingCard.appendChild(cardZ);
     //card mousover
-    cardZ.addEventListener("mouseover", () => {});
+    // cardZ.addEventListener("mouseover", () => {});
 
     //create object:
     const MovieObject = {
@@ -124,7 +122,9 @@ function makeMovieCards(data) {
       realeaseYear: element.release_date.split("-")[0],
       type: element.media_type,
       id: element.id,
+      path: posterMovie.src,
     };
+
     MovieTrendArr.push(MovieObject);
     //adding info from object to card:
     const Title = document.createElement("p");
@@ -179,10 +179,9 @@ function doOnLikeSymbol(heart, movie) {
   } else {
     likedMovs.splice(index, 1);
   }
+  console.log(movie);
 
   localStorage.setItem("likedMovies", JSON.stringify(likedMovs));
 }
 //-------------------------------------------------------functions(zeinab)
-
-// search from the localStorage
-const storedArray = JSON.parse(localStorage.getItem("savedInputArray")) || [];
+//localStorage.clear();
