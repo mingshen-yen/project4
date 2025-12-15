@@ -1,4 +1,6 @@
 const likedMovs = JSON.parse(localStorage.getItem("likedMovies")) || [];
+const NoFav = document.getElementById("middlePage");
+updateEmptyState();
 
 likedMovs.forEach((element) => {
   //making the cards for journal page
@@ -47,7 +49,22 @@ likedMovs.forEach((element) => {
   const removeBtn = document.getElementById("removeBtn");
   removeBtn.addEventListener("click", () => {
     cardZ.remove();
-
-    localStorage.clear();
+    NoFav.classList.remove("hidden");
+    localStorage.removeItem("likedMovies");
+    likedMovs = [];
   });
 });
+
+const numContainer = document.getElementById("favourites-container");
+const likeNum = document.createElement("div");
+likeNum.innerHTML = likedMovs.length;
+likeNum.className = "bg-purple-400";
+numContainer.appendChild("likeNum");
+
+function updateEmptyState(likedMovies) {
+  if (likedMovs.length === 0) {
+    NoFav.classList.remove("hidden");
+  } else {
+    NoFav.classList.add("hidden");
+  }
+}
