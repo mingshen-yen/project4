@@ -26,7 +26,7 @@ const fetchpopularMovies = (url) => {
           id: movie.id,
           title: movie.title,
           rate: movie.vote_average.toFixed(1),
-          imgURL: `https://image.tmdb.org/t/p/w342${movie.poster_path}`,
+          path: `https://image.tmdb.org/t/p/w342${movie.poster_path}`,
           realeaseYear: movie.release_date.split("-")[0],
           type: movie.media_type,
         };
@@ -51,7 +51,7 @@ const addCard = (data) => {
   const div = document.createElement("div");
   div.className = "card card-hover";
   div.innerHTML += `
-      <img src="${data.imgURL}" alt="movie" class="movie_img" />
+      <img src="${data.path}" alt="movie" class="movie_img" />
       <h4>${data.title}</h4>
       <span class= "thin text-base text-gray-400">${data.realeaseYear}</span>
     `;
@@ -90,8 +90,6 @@ const clickLike = (heart, keyname, data) => {
 
 fetchpopularMovies(apiURL);
 
-//-------------------------------------------------------functions(zeinab)
-
 const fetchMovies = async () => {
   const response = await fetch(TMDBurl);
   const data = await response.json();
@@ -126,7 +124,7 @@ function makeMovieCards(data) {
       realeaseYear: element.release_date.split("-")[0],
       type: element.media_type,
       id: element.id,
-      imgURL: posterMovie.src,
+      path: posterMovie.src,
     };
 
     MovieTrendArr.push(MovieObject);
@@ -143,18 +141,17 @@ function makeMovieCards(data) {
 
     const typeMovie = document.createElement("div");
     typeMovie.innerHTML = MovieObject.type;
-    typeMovie.className = "absolute bottom-4 right-5 rounded-full text-violet-300 bg-violet-950 pr-2 pl-2";
+    typeMovie.className = "absolute bottom-4 right-5  rounded-full text-violet-300 bg-violet-950 pr-2 pl-2";
     cardZ.appendChild(typeMovie);
 
     const rating = document.createElement("div");
     rating.innerHTML = MovieObject.rate;
-    rating.className = "absolute top-4 left-5 rounded-full bg-amber-500  pl-2 pr-3  before:content-['\u2605']";
+    rating.className = "absolute top-4 left-5  rounded-full bg-amber-500  pl-2 pr-3  before:content-['\u2605']";
     cardZ.appendChild(rating);
 
     const heart = document.createElement("span");
     heart.textContent = "\u2661";
-    heart.className =
-      "absolute top-3 right-4 text-3xl font-bold text-white cursor-pointer hover:bg-red-500 rounded-full";
+    heart.className = "absolute top-3 right-4 text-3xl font-bold text-white cursor-pointer hover:bg-red-500 rounded-xl";
     cardZ.appendChild(heart);
 
     heart.addEventListener("click", () => {
@@ -190,11 +187,3 @@ function doOnLikeSymbol(heart, movie) {
 }
 //-------------------------------------------------------functions(zeinab)
 //localStorage.clear();
-// search function
-const Movies = JSON.parse(localStorage.getItem("Movies"));
-// for (let i = 0; i < Movies.length; i++) {
-//   const key = localStorage.key(i);
-//   if (key.includes("movie")) {
-//     console.log("Matched key:", key);
-//   }
-// }
