@@ -1,6 +1,7 @@
 const likedMovs = JSON.parse(localStorage.getItem("likedMovies")) || [];
 
 likedMovs.forEach((element) => {
+  //making the cards for journal page
   console.log(element.path);
   const favoriteContainer = document.getElementById("favourites-container");
   const cardZ = document.createElement("div");
@@ -13,7 +14,7 @@ likedMovs.forEach((element) => {
   posterMovie.className = "rounded-lg mb-8 w-full object-contain ";
   cardZ.appendChild(posterMovie);
   favoriteContainer.appendChild(cardZ);
-  console.log(posterMovie.src, " ", srchelp);
+
   const Title = document.createElement("p");
   Title.innerHTML = element.title;
   Title.className =
@@ -42,6 +43,7 @@ likedMovs.forEach((element) => {
   heart.className =
     "absolute top-3 right-4 text-5xl font-bold text-red-500 cursor-pointer hover:bg-red-500 rounded-xl";
   cardZ.appendChild(heart);
+  //remove btn
   const removeBtn = document.getElementById("removeBtn");
   removeBtn.addEventListener("click", () => {
     cardZ.remove();
