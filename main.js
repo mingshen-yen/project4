@@ -1,11 +1,10 @@
 const searchResult = [];
+const MovieTrendArr = [];
 
 // Trending Movies
 let likedMovs = [];
 const TMDBurl =
   "https://api.themoviedb.org/3/trending/movie/week?api_key=e88deaad2c5706752bff03d4decee143";
-
-const MovieTrendArr = [];
 
 //let likedMovs = []; // localstorage for favorites called: likedMovies
 
@@ -21,6 +20,8 @@ fetchMovies();
 const createMovieCard = (data) => {
   makeMovieCards(data);
 };
+//-------------------------------------------------------functions(zeinab)
+
 function makeMovieCards(data) {
   const trendingCard = document.getElementById("card-container");
 
@@ -81,7 +82,6 @@ function makeMovieCards(data) {
     });
   });
 }
-//-------------------------------------------------------functions(zeinab)
 function doOnLikeSymbol(heart, movie) {
   //change the color of heart
   if (heart.textContent === "\u2661") {
