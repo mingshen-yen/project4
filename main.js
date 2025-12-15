@@ -1,11 +1,18 @@
-//-----------------------------global vars
+// global vars
 const searchResult = [];
 let likedMovs = [];
-//-----------------------------global vars
-
+const MovieTrendArr = [];
+const TMDBurl = "https://api.themoviedb.org/3/trending/movie/week?api_key=e88deaad2c5706752bff03d4decee143";
 const apiToken = "e88deaad2c5706752bff03d4decee143";
 const page = 1;
 const apiURL = `https://api.themoviedb.org/3/discover/movie?api_key=${apiToken}&page=${page}`;
+//-----------------------------
+
+// reload liked list from localStorage and keep heart in clicked situation
+window.addEventListener("load", function () {
+  const likedMovs = JSON.parse(localStorage.getItem("likedMovies"));
+  const Movies = JSON.parse(localStorage.getItem("Movies"));
+});
 
 const fetchpopularMovies = (url) => {
   fetch(url)
@@ -18,12 +25,12 @@ const fetchpopularMovies = (url) => {
         const movieList = {
           id: movie.id,
           title: movie.title,
-          imgURL: movie.poster_path,
+          rate: movie.vote_average.toFixed(1),
+          imgURL: `https://image.tmdb.org/t/p/w342${movie.poster_path}`,
           realeaseYear: movie.release_date.split("-")[0],
-          language: movie.original_language,
+          type: movie.media_type,
         };
-        addPopularCard(movieList);
-        // console.log(movieList);
+        addCard(movieList);
       });
     })
     .catch((error) => console.error("Error:", error));
@@ -39,21 +46,20 @@ const addToLocalStorage = (keyname, value) => {
   console.log("Updated array:", value);
 };
 
-const addPopularCard = (data) => {
-  const PersonalContainer = document.getElementById("popular-container");
+const addCard = (data) => {
+  const Container = document.getElementById("popular-container");
   const div = document.createElement("div");
-  div.className = "card hover:scale-105 hover:border-purple-800 hover:text-purple-300";
+  div.className = "card card-hover";
   div.innerHTML += `
-      <img src="https://image.tmdb.org/t/p/w500${data.imgURL}" alt="movie" class="movie_img" />
+      <img src="${data.imgURL}" alt="movie" class="movie_img" />
       <h4>${data.title}</h4>
       <span class= "thin text-base text-gray-400">${data.realeaseYear}</span>
-      <span class= "thin text-sm text-gray-400" >${data.language}</span>
     `;
   const heart = document.createElement("span");
   heart.textContent = "\u2665";
   heart.id = "unliked";
   div.prepend(heart);
-  PersonalContainer.appendChild(div);
+  Container.appendChild(div);
   heart.addEventListener("click", () => {
     clickLike(heart, "likedMovies", data);
   });
@@ -84,6 +90,8 @@ const clickLike = (heart, keyname, data) => {
 
 fetchpopularMovies(apiURL);
 
+//-------------------------------------------------------functions(zeinab)
+
 const fetchMovies = async () => {
   const response = await fetch(TMDBurl);
   const data = await response.json();
@@ -97,23 +105,19 @@ const createMovieCard = (data) => {
   makeMovieCards(data);
 };
 
-//-------------------------------------------------------functions(zeinab)
-
 function makeMovieCards(data) {
   const trendingCard = document.getElementById("card-container");
 
   data.results.forEach((element) => {
     const cardZ = document.createElement("div");
     cardZ.className =
-      "relative border border-gray-600 p-3 m-4 overflow-hidden rounded-xl max-w-xs transition transform duration-300 hover:scale-105 hover:border-purple-800  group";
+      "relative border border-gray-600 p-3 m-4 overflow-hidden rounded-xl max-w-xs transition transform duration-300 hover:scale-105 hover:border-purple-800 group";
     const posterMovie = document.createElement("img");
     posterMovie.src = `https://image.tmdb.org/t/p/w342${element.poster_path}`;
     posterMovie.alt = data.title;
     posterMovie.className = "rounded-lg mb-8 w-full object-contain ";
     cardZ.appendChild(posterMovie);
     trendingCard.appendChild(cardZ);
-    //card mousover
-    // cardZ.addEventListener("mouseover", () => {});
 
     //create object:
     const MovieObject = {
@@ -122,7 +126,7 @@ function makeMovieCards(data) {
       realeaseYear: element.release_date.split("-")[0],
       type: element.media_type,
       id: element.id,
-      path: posterMovie.src,
+      imgURL: posterMovie.src,
     };
 
     MovieTrendArr.push(MovieObject);
@@ -134,22 +138,23 @@ function makeMovieCards(data) {
 
     const year = document.createElement("span");
     year.innerHTML = MovieObject.realeaseYear;
-    year.className = "text-gray-400   text-sm";
+    year.className = "text-gray-400 text-sm";
     cardZ.appendChild(year);
 
     const typeMovie = document.createElement("div");
     typeMovie.innerHTML = MovieObject.type;
-    typeMovie.className = "absolute bottom-4 right-5  rounded-full text-violet-300 bg-violet-950 pr-2 pl-2";
+    typeMovie.className = "absolute bottom-4 right-5 rounded-full text-violet-300 bg-violet-950 pr-2 pl-2";
     cardZ.appendChild(typeMovie);
 
     const rating = document.createElement("div");
     rating.innerHTML = MovieObject.rate;
-    rating.className = "absolute top-4 left-5  rounded-full bg-amber-500  pl-2 pr-3  before:content-['\u2605']";
+    rating.className = "absolute top-4 left-5 rounded-full bg-amber-500  pl-2 pr-3  before:content-['\u2605']";
     cardZ.appendChild(rating);
 
     const heart = document.createElement("span");
     heart.textContent = "\u2661";
-    heart.className = "absolute top-3 right-4 text-3xl font-bold text-white cursor-pointer hover:bg-red-500 rounded-xl";
+    heart.className =
+      "absolute top-3 right-4 text-3xl font-bold text-white cursor-pointer hover:bg-red-500 rounded-full";
     cardZ.appendChild(heart);
 
     heart.addEventListener("click", () => {
@@ -185,3 +190,11 @@ function doOnLikeSymbol(heart, movie) {
 }
 //-------------------------------------------------------functions(zeinab)
 //localStorage.clear();
+// search function
+const Movies = JSON.parse(localStorage.getItem("Movies"));
+// for (let i = 0; i < Movies.length; i++) {
+//   const key = localStorage.key(i);
+//   if (key.includes("movie")) {
+//     console.log("Matched key:", key);
+//   }
+// }
