@@ -17,10 +17,13 @@
 
       @layer base {
         h2 {
-          @apply text-4xl font-bold lg:text-5xl;
+          @apply text-5xl font-bold md:text-6xl;
         }
         h3 {
-          @apply text-2xl font-bold lg:text-3xl;
+          @apply text-2xl font-bold md:text-3xl;
+        }
+        h4 {
+          @apply text-lg font-bold pt-2;
         }
         p {
           @apply text-base text-gray-500 p-4 text-center;
@@ -41,13 +44,22 @@
           @apply px-4 py-2.5 rounded-2xl text-sm font-semibold bg-purple-200 text-purple-800 hover:opacity-60;
         }
         .cards {
-          @apply flex flex-col sm:flex-row justify-center;
+          @apply flex flex-wrap text-center justify-center md:flex-row md:gap-2;
         }
         .card {
-          @apply border w-80 h-100 p-3 m-4 rounded-xl;
+          @apply flex flex-col border border-gray-700 pb-2 m-1 rounded-lg md:w-55;
         }
         .icons {
           @apply w-10 h-auto p-2 rounded-md;
+        }
+        .movie_img {
+          @apply w-full rounded-t-lg;
+        }
+        #liked {
+          @apply absolute text-3xl px-2 py-1 cursor-pointer text-red-500;
+        }
+        #unliked {
+          @apply absolute text-3xl px-2 py-1 cursor-pointer hover:bg-red-500 hover:rounded-full hover:text-white;
         }
       }
     </style>
@@ -78,7 +90,7 @@
         <!-- add favourite movies here -->
         <!-- add Personal Notes to each movie -->
       </section>
-      <section class="container">
+      <section id="nolikes" class="container">
         <div class="flex flex-col items-center p-4 m-10">
           <img src="assets/imgs/cinema.png" alt="video_icon" class="w-50 h-auto" />
           <h3 class="p-4">No favourites yet</h3>

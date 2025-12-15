@@ -1,3 +1,10 @@
+const searchResult = [];
+const MovieTrendArr = [];
+let likedMovs = [];
+// localstorage for favorites called: likedMovies
+
+const TMDBurl = "https://api.themoviedb.org/3/trending/movie/week?api_key=e88deaad2c5706752bff03d4decee143";
+
 const apiToken = "e88deaad2c5706752bff03d4decee143";
 const page = 1;
 const apiURL = `https://api.themoviedb.org/3/discover/movie?api_key=${apiToken}&page=${page}`;
@@ -14,10 +21,10 @@ const fetchpopularMovies = (url) => {
           id: movie.id,
           title: movie.title,
           imgURL: movie.poster_path,
-          date: movie.release_date,
+          realeaseYear: movie.release_date.split("-")[0],
           language: movie.original_language,
         };
-        addPersonalCard(movieList);
+        addPopularCard(movieList);
         // console.log(movieList);
       });
     })
@@ -26,47 +33,58 @@ const fetchpopularMovies = (url) => {
 
 const addToLocalStorage = (keyname, value) => {
   //Get existing array from localStorage OR start with empty array
-  // let value = JSON.parse(localStorage.getItem(keyname)) || [];
+  // let storedArray = JSON.parse(localStorage.getItem(keyname)) || [];
+  // Add new value at the beginning of the array
+  // storedArray.unshift(value);
   // Save updated array back to localStorage
   localStorage.setItem(keyname, JSON.stringify(value));
   console.log("Updated array:", value);
 };
 
-const addPersonalCard = (data) => {
+const addPopularCard = (data) => {
   const PersonalContainer = document.getElementById("popular-container");
   const div = document.createElement("div");
   div.className = "card hover:scale-105 hover:border-purple-800 hover:text-purple-300";
-  PersonalContainer.appendChild(div);
   div.innerHTML += `
-      <img src="assets/imgs/favourite.png" class="icons hidden" id="liked"/>
       <img src="https://image.tmdb.org/t/p/w500${data.imgURL}" alt="movie" class="movie_img" />
-      <h4 class='text-xl font-bold pt-2'>${data.title}</h4>
-      <span class= "thin text-base text-gray-400">${data.date}</span>
+      <h4>${data.title}</h4>
+      <span class= "thin text-base text-gray-400">${data.realeaseYear}</span>
       <span class= "thin text-sm text-gray-400" >${data.language}</span>
     `;
-
-  div.addEventListener("click", () => {
-    console.log("liked:", data.title);
-    addToLocalStorage("liked", data.title);
+  const heart = document.createElement("span");
+  heart.textContent = "\u2665";
+  heart.id = "unliked";
+  div.prepend(heart);
+  PersonalContainer.appendChild(div);
+  heart.addEventListener("click", () => {
+    clickLike(heart, "likedMovies", data);
   });
 };
 
-const selectLikes = () => {
-  const clickLikes = document.querySelector("#personal-container");
-  console.log(clickLikes);
+const clickLike = (heart, keyname, data) => {
+  //change the color of heart
+  if (heart.id === "liked") {
+    heart.id = "unliked";
+  } else if (heart.id === "unliked") {
+    heart.id = "liked";
+  }
+  // add new liked card to localStorage
+  // Get existing array from localStorage OR start with empty array
+  let likedMovs = JSON.parse(localStorage.getItem(keyname)) || [];
+
+  // check if new liked card is already in the array or not
+  const index = likedMovs.findIndex((m) => m.id === data.id);
+  if (index === -1) {
+    likedMovs.push(data);
+  } else {
+    likedMovs.splice(index, 1);
+  }
+  // Save updated array back to localStorage
+  localStorage.setItem(keyname, JSON.stringify(likedMovs));
+  console.log("Updated array:", likedMovs);
 };
 
 fetchpopularMovies(apiURL);
-selectLikes();
-
-const searchResult = [];
-const MovieTrendArr = [];
-
-// Trending Movies
-let likedMovs = [];
-const TMDBurl = "https://api.themoviedb.org/3/trending/movie/week?api_key=e88deaad2c5706752bff03d4decee143";
-
-//let likedMovs = []; // localstorage for favorites called: likedMovies
 
 const fetchMovies = async () => {
   const response = await fetch(TMDBurl);
@@ -165,3 +183,6 @@ function doOnLikeSymbol(heart, movie) {
   localStorage.setItem("likedMovies", JSON.stringify(likedMovs));
 }
 //-------------------------------------------------------functions(zeinab)
+
+// search from the localStorage
+const storedArray = JSON.parse(localStorage.getItem("savedInputArray")) || [];
