@@ -1,3 +1,5 @@
+const searchResult = [];
+
 // Trending Movies
 
 const TMDBurl =
@@ -5,7 +7,9 @@ const TMDBurl =
 
 const MovieTrendArr = [];
 
-const likedMovs = [];
+//let likedMovs = []; // localstorage for favorites called: likedMovies
+let likedMovs = JSON.parse(localStorage.getItem("likedMovies")) || [];
+
 const fetchMovies = async () => {
   const response = await fetch(TMDBurl);
   const data = await response.json();
@@ -78,7 +82,7 @@ function makeMovieCards(data) {
     });
   });
 }
-
+//-------------------------------------------------------functions(zeinab)
 function doOnLikeSymbol(heart, movie) {
   //change the color of heart
   if (heart.textContent === "\u2661") {
@@ -101,5 +105,6 @@ function doOnLikeSymbol(heart, movie) {
     likedMovs.splice(index, 1);
   }
 
-  console.log(movie);
+  // localStorage.setItem("likedMovies", JSON.stringify(likedMovs));
 }
+//-------------------------------------------------------functions(zeinab)
