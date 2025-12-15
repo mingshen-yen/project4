@@ -36,7 +36,7 @@ function makeMovieCards(data) {
     cardZ.appendChild(posterMovie);
     trendingCard.appendChild(cardZ);
     //card mousover
-    cardZ.addEventListener("mouseover", () => {});
+    // cardZ.addEventListener("mouseover", () => {});
 
     //create object:
     const MovieObject = {
@@ -45,7 +45,9 @@ function makeMovieCards(data) {
       realeaseYear: element.release_date.split("-")[0],
       type: element.media_type,
       id: element.id,
+      path: posterMovie.src,
     };
+
     MovieTrendArr.push(MovieObject);
     //adding info from object to card:
     const Title = document.createElement("p");
@@ -104,7 +106,9 @@ function doOnLikeSymbol(heart, movie) {
   } else {
     likedMovs.splice(index, 1);
   }
+  console.log(movie);
 
   localStorage.setItem("likedMovies", JSON.stringify(likedMovs));
 }
 //-------------------------------------------------------functions(zeinab)
+//localStorage.clear();
