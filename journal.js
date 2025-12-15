@@ -55,11 +55,12 @@ likedMovs.forEach((element) => {
   });
 });
 
-const numContainer = document.getElementById("favourites-container");
+console.log(likedMovs.length);
+const numContainer = document.querySelector("main");
 const likeNum = document.createElement("div");
-likeNum.innerHTML = likedMovs.length;
-likeNum.className = "bg-purple-400";
-numContainer.appendChild("likeNum");
+likeNum.innerHTML = `${likedMovs.length} Movie(s) selected: `;
+likeNum.className = " text-black p-2  text-gray-300 absolute top-30 left-20";
+numContainer.appendChild(likeNum);
 
 function updateEmptyState(likedMovies) {
   if (likedMovs.length === 0) {
