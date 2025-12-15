@@ -4,7 +4,10 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Homepage</title>
-    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4" defer></script>
+    <script
+      src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"
+      defer
+    ></script>
     <script src="main.js" defer></script>
     <style type="text/tailwindcss">
       @font-face {
@@ -41,7 +44,7 @@
           @apply px-4 py-2.5 rounded-2xl text-sm font-semibold bg-purple-200 text-purple-800 hover:opacity-60;
         }
         .cards {
-          @apply flex flex-wrap text-center justify-center md:flex-row md:gap-2;
+          @apply flex flex-wrap text-center justify-center md:flex-row md:gap-4;
         }
         .card {
           @apply flex flex-col border border-gray-700 pb-2 m-1 rounded-lg md:w-55;
@@ -72,15 +75,31 @@
     </header>
     <main class="bg-color">
       <section id="hero" class="mx-auto px-4 md:px-8 lg:px-12 bg-slate-900">
-        <div id="heroContainer" class="container flex flex-col justify-center items-center p-8">
-          <h4 class="py-2 px-8 text-violet-300 bg-indigo-950 border rounded-full border-violet-900">
+        <div
+          id="heroContainer"
+          class="container flex flex-col justify-center items-center p-8"
+        >
+          <h4
+            class="py-2 px-8 text-violet-300 bg-indigo-950 border rounded-full border-violet-900"
+          >
             Discover Amazing Movies
           </h4>
           <h2 class="pt-4 text-white">Find Your Next</h2>
           <h2 class="text-pink-400">Favourite Movie</h2>
-          <p>Search through thousands of movies, save your favourites, and never miss a great film again</p>
-          <div id="searchToolbar" class="flex flex-row text-center text-gray-400 m-8 gap-1 lg:m-16">
-            <input type="text" id="searchInput" placeholder="search for movies" class="border w-100 px-5 rounded-md" />
+          <p>
+            Search through thousands of movies, save your favourites, and never
+            miss a great film again
+          </p>
+          <div
+            id="searchToolbar"
+            class="flex flex-row text-center text-gray-400 m-8 gap-1 lg:m-16"
+          >
+            <input
+              type="text"
+              id="searchInput"
+              placeholder="search for movies"
+              class="border w-100 px-5 rounded-md"
+            />
             <button
               id="searchBtn"
               class="bg-purple-400 text-indigo-950 px-4 rounded-md hover:text-fuchsia-200 hover:bg-purple-500 text-base"
@@ -98,7 +117,10 @@
           <h3>Trending Movies</h3>
         </div>
 
-        <div id="card-container" class="grid gap-4 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5"></div>
+        <div
+          id="card-container"
+          class="grid gap-4 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5"
+        ></div>
       </section>
 
       <section class="container" id="popular">
