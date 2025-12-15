@@ -8,9 +8,10 @@ const fetchMovies = (url) => {
     .then((data) => {
       console.log(data); // array of movies
       const Movies = data.results;
-      addToLocalStorage("Movies", data.results);
-      data.results.forEach((movie) => {
+      addToLocalStorage("Movies", Movies);
+      Movies.forEach((movie) => {
         const movieList = {
+          id: movie.id,
           title: movie.title,
           imgURL: movie.poster_path,
           date: movie.release_date,
@@ -24,27 +25,39 @@ const fetchMovies = (url) => {
 };
 
 const addToLocalStorage = (keyname, value) => {
+  //Get existing array from localStorage OR start with empty array
+  let value = JSON.parse(localStorage.getItem(keyname)) || [];
+  // Save updated array back to localStorage
   localStorage.setItem(keyname, JSON.stringify(value));
   console.log("Updated array:", value);
 };
 
 const addPersonalCard = (data) => {
   const PersonalContainer = document.getElementById("personal-container");
-  PersonalContainer.innerHTML += `
-    <div class="card">
+  const div = document.createElement("div");
+  div.className = "card";
+  PersonalContainer.appendChild(div);
+  div.innerHTML += `
       <img src="assets/imgs/favourite.png" class="icons hidden" id="liked"/>
       <img src="https://image.tmdb.org/t/p/w500${data.imgURL}" alt="movie" class="movie_img" />
       <h4 class='text-xl font-bold pt-2'>${data.title}</h4>
       <span class= "thin text-base text-gray-400">${data.date}</span>
       <span class= "thin text-sm text-gray-400" >${data.language}</span>
-    </div>`;
+    `;
+
+  div.addEventListener("click", () => {
+    console.log("liked:", data.title);
+    addToLocalStorage("liked", data.title);
+  });
 };
 
 const selectLikes = () => {
   const clickLikes = document.querySelector("#personal-container");
   console.log(clickLikes);
-  // clickLikes.addEventListener("click", (event) => {});
 };
 
 fetchMovies(apiURL);
 selectLikes();
+
+// searchResult = []
+// likedMovies = []
