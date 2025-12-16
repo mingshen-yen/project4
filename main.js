@@ -29,6 +29,7 @@ const fetchpopularMovies = (url) => {
           path: `https://image.tmdb.org/t/p/w342${movie.poster_path}`,
           realeaseYear: movie.release_date.split("-")[0],
           type: movie.media_type,
+          note: "",
         };
         addCard(movieList);
       });
@@ -125,6 +126,7 @@ function makeMovieCards(data) {
       type: element.media_type,
       id: element.id,
       path: posterMovie.src,
+      note: "",
     };
 
     MovieTrendArr.push(MovieObject);

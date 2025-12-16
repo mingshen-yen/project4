@@ -12,6 +12,7 @@ removeBtn.addEventListener("click", () => {
   numContainer.remove();
   NoFav.classList.remove("hidden");
   localStorage.removeItem("likedMovies");
+  localStorage.removeItem("savedNotes");
   likedMovs = [];
 });
 
@@ -64,14 +65,54 @@ likedMovs.forEach((element) => {
   //   });
 
   // add notes for each favourite movie
+  function getNote() {
+    return JSON.parse(localStorage.getItem("likedMovies")) || [];
+  }
+  function setNote(favs) {
+    localStorage.setItem("likedMovies", JSON.stringify(favs));
+  }
+
   const form = document.createElement("form");
-  form.innerHTML = `
-    <input id="userInput" type="text" class="border p-2 w-full rounded-md"
-            placeholder="Enter a note"/>
-        <button id="save" class="bg-blue-500 hover:bg-blue-400 text-white rounded">save</button>
-        <ul></ul>
-    `;
+  const textContent = document.createElement("input");
+  textContent.id = "userInput";
+  textContent.placeholder = "enter your note";
+  textContent.className = "border p-2 w-full rounded-md";
+  const btnSave = document.createElement("button");
+  btnSave.id = "save";
+  btnSave.innerText = "save";
+  btnSave.className = "bg-blue-500 hover:bg-blue-400 text-white rounded";
+  const p = document.createElement("p");
+  p.className = "text-left text-white text-sm";
+  form.appendChild(textContent);
+  form.appendChild(btnSave);
+  form.appendChild(p);
   cardZ.appendChild(form);
+  console.log(btnSave, element);
+
+  btnSave.addEventListener("click", (event) => {
+    // prevent page reload
+    event.preventDefault();
+    const newNote = textContent.value.trim();
+    element.note = newNote;
+    console.log(element);
+
+    let favs = getNote();
+    // Update the movie's note
+    favs = favs.map((movie) => {
+      if (movie.id === element.id) {
+        return { ...movie, note: newNote };
+      }
+      return movie;
+    });
+    setNote(favs);
+    p.innerText = `note: ${newNote}`;
+
+    //     const rmBtn = document.createElement("button");
+    //     rmBtn.addEventListener("click", () => {
+    //       p.remove();
+    //     });
+    //     p.appendChild(rmBtn);
+  });
 });
 
 // I revised your synac to function by mingshen
@@ -90,55 +131,3 @@ function updateEmptyState(likedMovs) {
     NoFav.classList.add("hidden");
   }
 }
-
-// take personal notes to localStorage
-const input = document.getElementById("userInput");
-const btnSubmit = document.getElementById("save");
-const ul = document.querySelector("ul");
-
-// function for store input
-function InputStoreArray() {
-  // get the input text
-  const value = input.value;
-  //   const id = movie.id;
-  console.log("input:", value);
-
-  //Get existing array from localStorage OR start with empty array
-  let storedArray = JSON.parse(localStorage.getItem("savedNotes")) || [];
-
-  // Add new value at the beginning of the array
-  storedArray.unshift(value);
-
-  // Save updated array back to localStorage
-  localStorage.setItem("savedNotes", JSON.stringify(storedArray));
-  console.log("Updated array:", storedArray);
-
-  // clear the input
-  input.value = "";
-  return value;
-}
-
-// reload populate list from localStorage
-window.addEventListener("load", function () {
-  const storedArray = JSON.parse(localStorage.getItem("savedNotes")) || [];
-
-  storedArray.forEach((item) => {
-    const li = document.createElement("li");
-    li.textContent = item;
-    ul.appendChild(li); // keep original order
-  });
-});
-
-// add event listener for click submit
-btnSubmit.addEventListener("click", (event) => {
-  // prevent page reload
-  event.preventDefault();
-
-  // add a new input to ul
-  const newInput = InputStoreArray();
-  console.log(newInput);
-  const li = document.createElement("li");
-  li.innerText = newInput;
-  // add to the top of ul
-  ul.appendChild(li);
-});
