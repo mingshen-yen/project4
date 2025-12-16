@@ -1,133 +1,132 @@
-// reload populate list from localStorage
-const likedMovs = JSON.parse(localStorage.getItem("likedMovies"));
-const NoFav = document.querySelector("#middlePage");
-updateEmptyState(likedMovs);
-showNumbers(likedMovs);
-
-// revise fuction for remove btn
-const removeBtn = document.getElementById("removeBtn");
-removeBtn.addEventListener("click", () => {
-  const likes = document.querySelectorAll("#likedcard");
-  likes.forEach((item) => item.remove());
-  numContainer.remove();
-  NoFav.classList.remove("hidden");
-  localStorage.removeItem("likedMovies");
-  localStorage.removeItem("savedNotes");
-  likedMovs = [];
-});
-
-likedMovs.forEach((element) => {
-  //making the cards for journal page
-  //   console.log(element.path);
-  const favoriteContainer = document.getElementById("favourites-container");
-  const cardZ = document.createElement("div");
-  cardZ.id = "likedcard";
-  cardZ.className = cardZ.className =
-    "relative border border-gray-600 p-3 m-4 overflow-hidden rounded-xl max-w-xs transition transform duration-300 hover:scale-105 hover:border-purple-800 group";
-  const posterMovie = document.createElement("img");
-  posterMovie.src = element.path;
-  posterMovie.alt = element.title;
-  posterMovie.className = "rounded-lg mb-8 w-full object-contain ";
-  cardZ.appendChild(posterMovie);
-  favoriteContainer.appendChild(cardZ);
-
-  const Title = document.createElement("p");
-  Title.innerHTML = element.title;
-  Title.className = "text-white font-bold group-hover:text-purple-300 text-left";
-  cardZ.appendChild(Title);
-
-  const year = document.createElement("span");
-  year.innerHTML = element.realeaseYear;
-  year.className = "text-gray-400 text-sm";
-  cardZ.appendChild(year);
-
-  const typeMovie = document.createElement("div");
-  typeMovie.innerHTML = element.type;
-  typeMovie.className = "absolute bottom-4 right-5 rounded-full text-violet-300 bg-violet-950 pr-2 pl-2";
-  cardZ.appendChild(typeMovie);
-
-  const rating = document.createElement("div");
-  rating.innerHTML = element.rate;
-  rating.className = "absolute top-4 left-5 rounded-full bg-amber-500  pl-2 pr-3  before:content-['\u2605']";
-  cardZ.appendChild(rating);
-
-  const heart = document.createElement("span");
-  heart.textContent = "\u2665";
-  heart.className = "absolute top-3 right-4 text-5xl font-bold text-red-500 cursor-pointer hover:bg-red-500 rounded-xl";
-  cardZ.appendChild(heart);
-  //remove btn <- I think (remove btn).listener should be outside of this forEach, so i move this part to line 29: // revise fuction for remove btn
-  //   const removeBtn = document.getElementById("removeBtn");
-  //   removeBtn.addEventListener("click", () => {
-  //     cardZ.remove();
-  //     NoFav.classList.remove("hidden");
-  //     localStorage.removeItem("likedMovies");
-  //     likedMovs = [];
-  //   });
-
-  // add notes for each favourite movie
-  function getNote() {
-    return JSON.parse(localStorage.getItem("likedMovies")) || [];
-  }
-  function setNote(favs) {
-    localStorage.setItem("likedMovies", JSON.stringify(favs));
-  }
-
-  const form = document.createElement("form");
-  const textContent = document.createElement("input");
-  textContent.id = "userInput";
-  textContent.placeholder = "enter your note";
-  textContent.className = "border p-2 w-full rounded-md";
-  const btnSave = document.createElement("button");
-  btnSave.id = "save";
-  btnSave.innerText = "save";
-  btnSave.className = "bg-blue-500 hover:bg-blue-400 text-white rounded";
-  const p = document.createElement("p");
-  p.className = "text-left text-white text-sm";
-  form.appendChild(textContent);
-  form.appendChild(btnSave);
-  form.appendChild(p);
-  cardZ.appendChild(form);
-  console.log(btnSave, element);
-
-  btnSave.addEventListener("click", (event) => {
-    // prevent page reload
-    event.preventDefault();
-    const newNote = textContent.value.trim();
-    element.note = newNote;
-    console.log(element);
-
-    let favs = getNote();
-    // Update the movie's note
-    favs = favs.map((movie) => {
-      if (movie.id === element.id) {
-        return { ...movie, note: newNote };
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Homepage</title>
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4" defer></script>
+    <script src="main.js" defer></script>
+    <style type="text/tailwindcss">
+      @font-face {
+        font-family: "Outfit";
+        src: url("assets/fonts/outfit.ttf") format("truetype");
+        font-weight: 100 900;
+        font-stretch: 75% 125%;
+        font-style: normal;
       }
-      return movie;
-    });
-    setNote(favs);
-    p.innerText = `note: ${newNote}`;
 
-    //     const rmBtn = document.createElement("button");
-    //     rmBtn.addEventListener("click", () => {
-    //       p.remove();
-    //     });
-    //     p.appendChild(rmBtn);
-  });
-});
+      @layer base {
+        h2 {
+          @apply text-5xl font-bold md:text-6xl;
+        }
+        h3 {
+          @apply text-2xl font-bold md:text-3xl;
+        }
+        h4 {
+          @apply text-lg font-bold pt-2;
+        }
+        p {
+          @apply text-base text-gray-500 p-4 text-center;
+        }
+      }
 
-// I revised your synac to function by mingshen
-function showNumbers(likedMovs) {
-  const numMovies = likedMovs.length;
-  const numContainer = document.querySelector("#numContainer");
-  const likeNum = document.createElement("p");
-  likeNum.innerHTML = `${numMovies} Movie(s) selected: `;
-  numContainer.appendChild(likeNum);
-}
+      @layer components {
+        .bg-color {
+          @apply bg-gradient-to-br from-black to-blue-950;
+        }
+        .container {
+          @apply max-w-300 m-auto p-2;
+        }
+        .btn {
+          @apply px-5 py-2.5 m-1 text-center text-sm font-semibold inline-block bg-purple-800 opacity-85 text-purple-50 cursor-pointer uppercase transition duration-200 ease-in-out rounded-2xl hover:bg-indigo-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-600 focus-visible:ring-offset-2 active:scale-95;
+        }
+        button {
+          @apply px-4 py-2.5 rounded-2xl text-sm font-semibold bg-purple-200 text-purple-800 hover:opacity-60;
+        }
+        .cards {
+          @apply flex flex-wrap text-center justify-center md:flex-row md:gap-4;
+        }
+        .card {
+          @apply flex flex-col border border-gray-700 pb-2 m-1 rounded-lg md:w-55;
+        }
+        .card-hover {
+          @apply hover:scale-105 hover:border-purple-800 hover:text-purple-300 duration-300;
+        }
+        .icons {
+          @apply w-10 h-auto p-2 rounded-md;
+        }
+        .movie_img {
+          @apply w-full rounded-t-lg;
+        }
+        #liked {
+          @apply absolute text-3xl px-2 py-1 cursor-pointer text-red-500;
+        }
+        #unliked {
+          @apply absolute text-3xl px-2 py-1 cursor-pointer hover:bg-red-500 hover:rounded-full hover:text-white;
+        }
+      }
+    </style>
+  </head>
+  <body class="font-family-sans bg-color text-white">
+    <header class="bg-color">
+      <section class="container flex justify-between items-center">
+        <div>
+          <span class="pl-10 text-3xl font-bold text-purple-50"> Movie</span
+          ><span class="text-3xl font-bold text-purple-500">Hub</span>
+        </div>
+        <div>
+          <nav class="justify-around">
+            <a class="btn" href="index.html">Home</a>
+            <a class="btn" href="journal.html">Favourites</a>
+          </nav>
+        </div>
+      </section>
+    </header>
+    <main class="bg-color">
+      <section id="hero" class="mx-auto px-4 md:px-8 lg:px-12 bg-slate-900">
+        <div id="heroContainer" class="container flex flex-col justify-center items-center p-8">
+          <h4 class="py-2 px-8 text-violet-300 bg-indigo-950 border rounded-full border-violet-900">
+            Discover Amazing Movies
+          </h4>
+          <h2 class="pt-4 text-white">Find Your Next</h2>
+          <h2 class="text-pink-400">Favourite Movie</h2>
+          <p>Search through thousands of movies, save your favourites, and never miss a great film again</p>
+          <div id="searchToolbar" class="flex flex-row text-center text-gray-400 m-8 gap-1 lg:m-16">
+            <input type="text" id="searchInput" placeholder="search for movies" class="border w-100 px-5 rounded-md" />
+            <button
+              id="searchBtn"
+              class="bg-purple-400 text-indigo-950 px-4 rounded-md hover:text-fuchsia-200 hover:bg-purple-500 text-base"
+            >
+              search
+            </button>
+          </div>
+        </div>
+      </section>
 
-function updateEmptyState(likedMovs) {
-  if (likedMovs.length === 0) {
-    NoFav.classList.remove("hidden");
-  } else {
-    NoFav.classList.add("hidden");
-  }
-}
+      <!-- trending section -->
+      <section id="trendingMovies" class="container">
+        <div class="flex flex-row p-4 items-center">
+          <img src="assets/imgs/trend.png" alt="flame_icon" class="icons" />
+          <h3>Trending Movies</h3>
+        </div>
+
+        <div id="card-container" class="grid md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5"></div>
+      </section>
+
+      <section class="container" id="popular">
+        <div class="flex flex-row p-4 items-center">
+          <img src="assets/imgs/flame.png" alt="search_icon" class="icons" />
+          <h3>Popular Movies</h3>
+        </div>
+        <div class="cards" id="popular-container">
+          <!-- add the new card here -->
+        </div>
+      </section>
+    </main>
+    <footer class="bg-color">
+      <div class="container p-10 flex justify-center">
+        <span>© 2025 MovieHub</span>
+      </div>
+    </footer>
+  </body>
+</html>

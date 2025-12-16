@@ -2,7 +2,8 @@
 const searchResult = [];
 let likedMovs = [];
 const MovieTrendArr = [];
-const TMDBurl = "https://api.themoviedb.org/3/trending/movie/week?api_key=e88deaad2c5706752bff03d4decee143";
+const TMDBurl =
+  "https://api.themoviedb.org/3/trending/movie/week?api_key=e88deaad2c5706752bff03d4decee143";
 const apiToken = "e88deaad2c5706752bff03d4decee143";
 const page = 1;
 const apiURL = `https://api.themoviedb.org/3/discover/movie?api_key=${apiToken}&page=${page}`;
@@ -133,7 +134,8 @@ function makeMovieCards(data) {
     //adding info from object to card:
     const Title = document.createElement("p");
     Title.innerHTML = MovieObject.title;
-    Title.className = "text-white font-bold group-hover:text-purple-300 text-left";
+    Title.className =
+      "text-white font-bold group-hover:text-purple-300 text-left";
     cardZ.appendChild(Title);
 
     const year = document.createElement("span");
@@ -143,17 +145,20 @@ function makeMovieCards(data) {
 
     const typeMovie = document.createElement("div");
     typeMovie.innerHTML = MovieObject.type;
-    typeMovie.className = "absolute bottom-4 right-5  rounded-full text-violet-300 bg-violet-950 pr-2 pl-2";
+    typeMovie.className =
+      "absolute bottom-4 right-5  rounded-full text-violet-300 bg-violet-950 pr-2 pl-2";
     cardZ.appendChild(typeMovie);
 
     const rating = document.createElement("div");
     rating.innerHTML = MovieObject.rate;
-    rating.className = "absolute top-4 left-5  rounded-full bg-amber-500  pl-2 pr-3  before:content-['\u2605']";
+    rating.className =
+      "absolute top-4 left-5  rounded-full bg-amber-500  pl-2 pr-3  before:content-['\u2605']";
     cardZ.appendChild(rating);
 
     const heart = document.createElement("span");
     heart.textContent = "\u2661";
-    heart.className = "absolute top-3 right-4 text-3xl font-bold text-white cursor-pointer hover:bg-red-500 rounded-xl";
+    heart.className =
+      "absolute top-3 right-4 text-3xl font-bold text-white cursor-pointer hover:bg-red-500 rounded-xl";
     cardZ.appendChild(heart);
 
     heart.addEventListener("click", () => {
