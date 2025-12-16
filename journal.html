@@ -4,10 +4,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Journal</title>
-    <script
-      src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"
-      defer
-    ></script>
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4" defer></script>
     <script src="journal.js" defer></script>
     <style type="text/tailwindcss">
       @font-face {
@@ -20,10 +17,13 @@
 
       @layer base {
         h2 {
-          @apply text-4xl font-bold lg:text-5xl;
+          @apply text-5xl font-bold md:text-6xl;
         }
         h3 {
-          @apply text-2xl font-bold lg:text-3xl;
+          @apply text-2xl font-bold md:text-3xl;
+        }
+        h4 {
+          @apply text-lg font-bold pt-2;
         }
         p {
           @apply text-base text-gray-500 p-4 text-center;
@@ -44,13 +44,25 @@
           @apply px-4 py-2.5 rounded-2xl text-sm font-semibold bg-purple-200 text-purple-800 hover:opacity-60;
         }
         .cards {
-          @apply flex flex-col sm:flex-row justify-center;
+          @apply flex flex-wrap text-center justify-center md:flex-row md:gap-2;
         }
         .card {
-          @apply border w-80 h-100 p-3 m-4 rounded-xl;
+          @apply flex flex-col border border-gray-700 pb-2 m-1 rounded-lg md:w-55;
+        }
+        .card-hover {
+          @apply hover:scale-105 hover:border-purple-800 hover:text-purple-300 duration-300;
         }
         .icons {
           @apply w-10 h-auto p-2 rounded-md;
+        }
+        .movie_img {
+          @apply w-full rounded-t-lg;
+        }
+        #liked {
+          @apply absolute text-3xl px-2 py-1 cursor-pointer text-red-500;
+        }
+        #unliked {
+          @apply absolute text-3xl px-2 py-1 cursor-pointer hover:bg-red-500 hover:rounded-full hover:text-white;
         }
       }
     </style>
@@ -72,35 +84,20 @@
     </header>
     <main class="bg-color">
       <div class="container p-4 flex">
-        <img
-          src="assets/imgs/favourite.png"
-          alt="favourite_icon"
-          class="icons"
-        />
+        <img src="assets/imgs/favourite.png" alt="favourite_icon" class="icons" />
         <h3 id="Favorites">My Favourites</h3>
         <p id="FavoriteNum" class="p-1"></p>
-        <button
-          id="removeBtn"
-          class="border rounded-xl px-4 ml-auto bg-blue-100"
-        >
-          Remove all movies
-        </button>
+        <button id="removeBtn" class="border rounded-xl px-4 ml-auto bg-blue-100">Remove all movies</button>
       </div>
-      <section id="favourites-container" class="container cards">
+      <section id="numContainer" class="container flex text-gray-800"></section>
+      <section id="favourites-container" class="container grid md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5">
         <!-- add Personal Notes to each movie -->
       </section>
       <section class="container" id="middlePage">
         <div class="flex flex-col items-center p-4 m-10">
-          <img
-            src="assets/imgs/cinema.png"
-            alt="video_icon"
-            class="w-50 h-auto"
-          />
+          <img src="assets/imgs/cinema.png" alt="video_icon" class="w-50 h-auto" />
           <h3 class="p-4">No favourites yet</h3>
-          <p>
-            Start exploring movies and click the heart icon to add them to your
-            favourites
-          </p>
+          <p>Start exploring movies and click the heart icon to add them to your favourites</p>
           <a class="btn" href="index.html">Discover Movies</a>
         </div>
       </section>

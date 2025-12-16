@@ -1,11 +1,18 @@
-//-----------------------------global vars
+// global vars
 const searchResult = [];
 let likedMovs = [];
-//-----------------------------global vars
-
+const MovieTrendArr = [];
+const TMDBurl = "https://api.themoviedb.org/3/trending/movie/week?api_key=e88deaad2c5706752bff03d4decee143";
 const apiToken = "e88deaad2c5706752bff03d4decee143";
 const page = 1;
 const apiURL = `https://api.themoviedb.org/3/discover/movie?api_key=${apiToken}&page=${page}`;
+//-----------------------------
+
+// reload liked list from localStorage and keep heart in clicked situation
+window.addEventListener("load", function () {
+  const likedMovs = JSON.parse(localStorage.getItem("likedMovies"));
+  const Movies = JSON.parse(localStorage.getItem("Movies"));
+});
 
 const fetchpopularMovies = (url) => {
   fetch(url)
@@ -18,12 +25,13 @@ const fetchpopularMovies = (url) => {
         const movieList = {
           id: movie.id,
           title: movie.title,
-          imgURL: movie.poster_path,
-          date: movie.release_date,
-          language: movie.original_language,
+          rate: movie.vote_average.toFixed(1),
+          path: `https://image.tmdb.org/t/p/w342${movie.poster_path}`,
+          realeaseYear: movie.release_date.split("-")[0],
+          type: movie.media_type,
+          note: "",
         };
-        addPersonalCard(movieList);
-        // console.log(movieList);
+        addCard(movieList);
       });
     })
     .catch((error) => console.error("Error:", error));
@@ -31,47 +39,57 @@ const fetchpopularMovies = (url) => {
 
 const addToLocalStorage = (keyname, value) => {
   //Get existing array from localStorage OR start with empty array
-  // let value = JSON.parse(localStorage.getItem(keyname)) || [];
+  // let storedArray = JSON.parse(localStorage.getItem(keyname)) || [];
+  // Add new value at the beginning of the array
+  // storedArray.unshift(value);
   // Save updated array back to localStorage
   localStorage.setItem(keyname, JSON.stringify(value));
   console.log("Updated array:", value);
 };
 
-const addPersonalCard = (data) => {
-  const PersonalContainer = document.getElementById("popular-container");
+const addCard = (data) => {
+  const Container = document.getElementById("popular-container");
   const div = document.createElement("div");
-  div.className =
-    "card hover:scale-105 hover:border-purple-800 hover:text-purple-300";
-  PersonalContainer.appendChild(div);
+  div.className = "card card-hover";
   div.innerHTML += `
-      <img src="assets/imgs/favourite.png" class="icons hidden" id="liked"/>
-      <img src="https://image.tmdb.org/t/p/w500${data.imgURL}" alt="movie" class="movie_img" />
-      <h4 class='text-xl font-bold pt-2'>${data.title}</h4>
-      <span class= "thin text-base text-gray-400">${data.date}</span>
-      <span class= "thin text-sm text-gray-400" >${data.language}</span>
+      <img src="${data.path}" alt="movie" class="movie_img" />
+      <h4>${data.title}</h4>
+      <span class= "thin text-base text-gray-400">${data.realeaseYear}</span>
     `;
-
-  div.addEventListener("click", () => {
-    console.log("liked:", data.title);
-    addToLocalStorage("liked", data.title);
+  const heart = document.createElement("span");
+  heart.textContent = "\u2665";
+  heart.id = "unliked";
+  div.prepend(heart);
+  Container.appendChild(div);
+  heart.addEventListener("click", () => {
+    clickLike(heart, "likedMovies", data);
   });
 };
 
-const selectLikes = () => {
-  const clickLikes = document.querySelector("#personal-container");
-  console.log(clickLikes);
+const clickLike = (heart, keyname, data) => {
+  //change the color of heart
+  if (heart.id === "liked") {
+    heart.id = "unliked";
+  } else if (heart.id === "unliked") {
+    heart.id = "liked";
+  }
+  // add new liked card to localStorage
+  // Get existing array from localStorage OR start with empty array
+  let likedMovs = JSON.parse(localStorage.getItem(keyname)) || [];
+
+  // check if new liked card is already in the array or not
+  const index = likedMovs.findIndex((m) => m.id === data.id);
+  if (index === -1) {
+    likedMovs.push(data);
+  } else {
+    likedMovs.splice(index, 1);
+  }
+  // Save updated array back to localStorage
+  localStorage.setItem(keyname, JSON.stringify(likedMovs));
+  console.log("Updated array:", likedMovs);
 };
 
 fetchpopularMovies(apiURL);
-selectLikes();
-
-// Trending Movies
-const MovieTrendArr = [];
-
-const TMDBurl =
-  "https://api.themoviedb.org/3/trending/movie/week?api_key=e88deaad2c5706752bff03d4decee143";
-
-//let likedMovs = []; // localstorage for favorites called: likedMovies
 
 const fetchMovies = async () => {
   const response = await fetch(TMDBurl);
@@ -86,23 +104,19 @@ const createMovieCard = (data) => {
   makeMovieCards(data);
 };
 
-//-------------------------------------------------------functions(zeinab)
-
 function makeMovieCards(data) {
   const trendingCard = document.getElementById("card-container");
 
   data.results.forEach((element) => {
     const cardZ = document.createElement("div");
     cardZ.className =
-      "relative border border-gray-600 p-3 m-4 overflow-hidden rounded-xl max-w-xs transition transform duration-300 hover:scale-105 hover:border-purple-800  group";
+      "relative border border-gray-600 p-3 m-4 overflow-hidden rounded-xl max-w-xs transition transform duration-300 hover:scale-105 hover:border-purple-800 group";
     const posterMovie = document.createElement("img");
     posterMovie.src = `https://image.tmdb.org/t/p/w342${element.poster_path}`;
     posterMovie.alt = data.title;
     posterMovie.className = "rounded-lg mb-8 w-full object-contain ";
     cardZ.appendChild(posterMovie);
     trendingCard.appendChild(cardZ);
-    //card mousover
-    // cardZ.addEventListener("mouseover", () => {});
 
     //create object:
     const MovieObject = {
@@ -112,37 +126,34 @@ function makeMovieCards(data) {
       type: element.media_type,
       id: element.id,
       path: posterMovie.src,
+      note: "",
     };
 
     MovieTrendArr.push(MovieObject);
     //adding info from object to card:
     const Title = document.createElement("p");
     Title.innerHTML = MovieObject.title;
-    Title.className =
-      "text-white font-bold group-hover:text-purple-300 text-left";
+    Title.className = "text-white font-bold group-hover:text-purple-300 text-left";
     cardZ.appendChild(Title);
 
     const year = document.createElement("span");
     year.innerHTML = MovieObject.realeaseYear;
-    year.className = "text-gray-400   text-sm";
+    year.className = "text-gray-400 text-sm";
     cardZ.appendChild(year);
 
     const typeMovie = document.createElement("div");
     typeMovie.innerHTML = MovieObject.type;
-    typeMovie.className =
-      "absolute bottom-4 right-5  rounded-full text-violet-300 bg-violet-950 pr-2 pl-2";
+    typeMovie.className = "absolute bottom-4 right-5  rounded-full text-violet-300 bg-violet-950 pr-2 pl-2";
     cardZ.appendChild(typeMovie);
 
     const rating = document.createElement("div");
     rating.innerHTML = MovieObject.rate;
-    rating.className =
-      "absolute top-4 left-5  rounded-full bg-amber-500  pl-2 pr-3  before:content-['\u2605']";
+    rating.className = "absolute top-4 left-5  rounded-full bg-amber-500  pl-2 pr-3  before:content-['\u2605']";
     cardZ.appendChild(rating);
 
     const heart = document.createElement("span");
     heart.textContent = "\u2661";
-    heart.className =
-      "absolute top-3 right-4 text-3xl font-bold text-white cursor-pointer hover:bg-red-500 rounded-xl";
+    heart.className = "absolute top-3 right-4 text-3xl font-bold text-white cursor-pointer hover:bg-red-500 rounded-xl";
     cardZ.appendChild(heart);
 
     heart.addEventListener("click", () => {
