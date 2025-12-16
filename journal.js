@@ -4,28 +4,6 @@ const NoFav = document.querySelector("#middlePage");
 updateEmptyState(likedMovs);
 showNumbers(likedMovs);
 
-// my way of addCard by mingshen ---> to be discussed which way and how to make styles consistent
-// const addCard = (data) => {
-//   const Container = document.getElementById("favourites-container");
-//   const div = document.createElement("div");
-//   div.id = "likedcard";
-//   div.className = "card card-hover";
-//   div.innerHTML += `
-//       <img src="https://image.tmdb.org/t/p/w500${data.path}" alt="movie" class="movie_img" />
-//       <h4>${data.title}</h4>
-//       <span class= "thin text-base text-gray-400">${data.realeaseYear}</span>
-//       <form>
-//         <input id="userInput" type="text" class="border p-2 w-full rounded-md"
-//             placeholder="Enter a note"/>
-//         <button id="save" class="bg-blue-500 hover:bg-blue-400 text-white rounded">save</button>
-//       </form>
-//     `;
-//   Container.appendChild(div);
-// };
-// likedMovs.forEach((data) => {
-//   addCard(data);
-// });
-
 // revise fuction for remove btn
 const removeBtn = document.getElementById("removeBtn");
 removeBtn.addEventListener("click", () => {
@@ -84,6 +62,16 @@ likedMovs.forEach((element) => {
   //     localStorage.removeItem("likedMovies");
   //     likedMovs = [];
   //   });
+
+  // add notes for each favourite movie
+  const form = document.createElement("form");
+  form.innerHTML = `
+    <input id="userInput" type="text" class="border p-2 w-full rounded-md"
+            placeholder="Enter a note"/>
+        <button id="save" class="bg-blue-500 hover:bg-blue-400 text-white rounded">save</button>
+        <ul></ul>
+    `;
+  cardZ.appendChild(form);
 });
 
 // I revised your synac to function by mingshen
@@ -102,3 +90,55 @@ function updateEmptyState(likedMovs) {
     NoFav.classList.add("hidden");
   }
 }
+
+// take personal notes to localStorage
+const input = document.getElementById("userInput");
+const btnSubmit = document.getElementById("save");
+const ul = document.querySelector("ul");
+
+// function for store input
+function InputStoreArray() {
+  // get the input text
+  const value = input.value;
+  //   const id = movie.id;
+  console.log("input:", value);
+
+  //Get existing array from localStorage OR start with empty array
+  let storedArray = JSON.parse(localStorage.getItem("savedNotes")) || [];
+
+  // Add new value at the beginning of the array
+  storedArray.unshift(value);
+
+  // Save updated array back to localStorage
+  localStorage.setItem("savedNotes", JSON.stringify(storedArray));
+  console.log("Updated array:", storedArray);
+
+  // clear the input
+  input.value = "";
+  return value;
+}
+
+// reload populate list from localStorage
+window.addEventListener("load", function () {
+  const storedArray = JSON.parse(localStorage.getItem("savedNotes")) || [];
+
+  storedArray.forEach((item) => {
+    const li = document.createElement("li");
+    li.textContent = item;
+    ul.appendChild(li); // keep original order
+  });
+});
+
+// add event listener for click submit
+btnSubmit.addEventListener("click", (event) => {
+  // prevent page reload
+  event.preventDefault();
+
+  // add a new input to ul
+  const newInput = InputStoreArray();
+  console.log(newInput);
+  const li = document.createElement("li");
+  li.innerText = newInput;
+  // add to the top of ul
+  ul.appendChild(li);
+});
