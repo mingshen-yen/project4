@@ -91,12 +91,14 @@ const clickLike = (heart, keyname, data) => {
 };
 
 fetchpopularMovies(apiURL);
-
+//---------------------------------------------------------------TRENDING-----------------------------
+//---------------------------------this lined should not be removed ----------------------------------
 const fetchMovies = async () => {
   const response = await fetch(TMDBurl);
   const data = await response.json();
   console.log(data);
   createMovieCard(data);
+  searchSetup();
 };
 
 fetchMovies();
@@ -104,6 +106,18 @@ fetchMovies();
 const createMovieCard = (data) => {
   makeMovieCards(data);
 };
+//----------------------------------------------functions Zeinab--------------------------------------
+
+function searchSetup() {
+  const input = document.getElementById("searchInput");
+  const searchBtn = document.getElementById("searchBtn");
+  searchBtn.addEventListener("click", () => {
+    const phrase = input.value;
+    const foundMovies = searchArray(phrase, MovieTrendArr);
+    console.log("Found movies:", searchResult);
+    input.value = "";
+  });
+}
 
 function makeMovieCards(data) {
   const trendingCard = document.getElementById("card-container");
@@ -192,5 +206,22 @@ function doOnLikeSymbol(heart, movie) {
 
   localStorage.setItem("likedMovies", JSON.stringify(likedMovs));
 }
-//-------------------------------------------------------functions(zeinab)
-//localStorage.clear();
+
+//searching in titles:
+function searchArray(phrase, movieArray) {
+  phrase = phrase.toLowerCase().trim();
+  if (!phrase) return [];
+
+  const words = phrase.split(" ");
+  movieArray.forEach((movie) => {
+    const title = (movie.title || "").toLowerCase();
+
+    // check if any word matches
+    const found = words.every((word) => title.includes(word));
+    if (found) {
+      searchResult.push(movie);
+    }
+  });
+}
+//-----------------------------------------functions Zeinab---------------------------------------
+//----------------------------------------this needs to be here!---------------------------------------
