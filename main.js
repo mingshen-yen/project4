@@ -2,8 +2,7 @@
 const searchResult = [];
 let likedMovs = [];
 const MovieTrendArr = [];
-const TMDBurl =
-  "https://api.themoviedb.org/3/trending/movie/week?api_key=e88deaad2c5706752bff03d4decee143";
+const TMDBurl = "https://api.themoviedb.org/3/trending/movie/week?api_key=e88deaad2c5706752bff03d4decee143";
 const apiToken = "e88deaad2c5706752bff03d4decee143";
 const page = 1;
 const apiURL = `https://api.themoviedb.org/3/discover/movie?api_key=${apiToken}&page=${page}`;
@@ -37,7 +36,6 @@ const fetchpopularMovies = (url) => {
 
 const addToLocalStorage = (keyname, value) => {
   localStorage.setItem(keyname, JSON.stringify(value));
-  console.log("Updated array:", value);
 };
 
 const addCard = (data, container, likedMovs) => {
@@ -50,27 +48,23 @@ const addCard = (data, container, likedMovs) => {
     `;
   const Title = document.createElement("p");
   Title.innerHTML = data.title;
-  Title.className =
-    "text-white font-bold group-hover:text-purple-300 text-left";
+  Title.className = "text-white font-bold group-hover:text-purple-300 text-left";
   div.appendChild(Title);
 
   const year = document.createElement("span");
   year.innerHTML = data.realeaseYear;
-  year.className =
-    "px-3 py-1 m-2 text-sm rounded-full text-violet-300 bg-violet-950";
+  year.className = "px-3 py-1 m-2 text-sm rounded-full text-violet-300 bg-violet-950";
   div.appendChild(year);
 
   const language = document.createElement("span");
   language.innerHTML = data.language;
-  language.className =
-    "px-3 py-1 text-sm rounded-full text-violet-300 bg-violet-950";
+  language.className = "px-3 py-1 text-sm rounded-full text-violet-300 bg-violet-950";
   div.appendChild(language);
 
   const top = document.createElement("div");
   const rating = document.createElement("span");
   rating.innerHTML = data.rate;
-  rating.className =
-    "absolute px-2 m-2.5 rounded-full bg-amber-500 before:content-['\u2605']";
+  rating.className = "absolute px-2 m-2.5 rounded-full bg-amber-500 before:content-['\u2605']";
   top.appendChild(rating);
 
   const heart = document.createElement("span");
@@ -117,6 +111,39 @@ const clickLike = (heart, keyname, data) => {
 };
 
 fetchpopularMovies(apiURL);
+
+//searching in titles:
+function searchArray(phrase, movieArray, searchResultArray) {
+  phrase = phrase.toLowerCase().trim();
+  if (!phrase) return [];
+
+  const words = phrase.split(" ");
+  movieArray.forEach((movie) => {
+    console.log(movie.title);
+    const title = (movie.title || "").toLowerCase();
+
+    // check if any word matches
+    const found = words.every((word) => title.includes(word));
+    if (found) {
+      searchResult.push(movie);
+      // Save updated array back to localStorage
+      localStorage.setItem(searchResultArray, JSON.stringify(movie));
+    }
+  });
+}
+const input = document.getElementById("searchInput");
+const searchBtn = document.getElementById("searchBtn");
+searchBtn.addEventListener("click", () => {
+  const Movies = JSON.parse(localStorage.getItem("Movies")) || [];
+  const searchResultArray = JSON.parse(localStorage.getItem("searchResults")) || [];
+
+  console.log("hi");
+  const phrase = input.value;
+  console.log(phrase);
+  const searchResult = searchArray(phrase, Movies, searchResultArray);
+  console.log("Found movies:", searchResult);
+});
+
 //---------------------------------------------------------------TRENDING-----------------------------
 //---------------------------------this lined should not be removed ----------------------------------
 const fetchMovies = async () => {
@@ -185,32 +212,30 @@ function makeMovieCards(data) {
       language: element.original_language.toUpperCase(),
       note: "",
     };
+    // add this fetch result to localStorage
+    addToLocalStorage("TrendingMovies", MovieObject);
 
     MovieTrendArr.push(MovieObject);
     //adding info from object to card:
     const Title = document.createElement("p");
     Title.innerHTML = MovieObject.title;
-    Title.className =
-      "text-white font-bold group-hover:text-purple-300 text-left";
+    Title.className = "text-white font-bold group-hover:text-purple-300 text-left";
     cardZ.appendChild(Title);
 
     const year = document.createElement("span");
     year.innerHTML = MovieObject.realeaseYear;
-    year.className =
-      "px-3 py-1 m-2 text-sm rounded-full text-violet-300 bg-violet-950";
+    year.className = "px-3 py-1 m-2 text-sm rounded-full text-violet-300 bg-violet-950";
     cardZ.appendChild(year);
 
     const typeMovie = document.createElement("span");
     typeMovie.innerHTML = MovieObject.language;
-    typeMovie.className =
-      "px-3 py-1 text-sm rounded-full text-violet-300 bg-violet-950";
+    typeMovie.className = "px-3 py-1 text-sm rounded-full text-violet-300 bg-violet-950";
     cardZ.appendChild(typeMovie);
 
     const top = document.createElement("div");
     const rating = document.createElement("span");
     rating.innerHTML = MovieObject.rate;
-    rating.className =
-      "absolute px-2 m-2.5 rounded-full bg-amber-500 before:content-['\u2605']";
+    rating.className = "absolute px-2 m-2.5 rounded-full bg-amber-500 before:content-['\u2605']";
     top.appendChild(rating);
 
     const heart = document.createElement("span");
@@ -220,10 +245,8 @@ function makeMovieCards(data) {
     const index = likedMovs.findIndex((m) => m.id === element.id);
     if (index === -1) {
       heart.id = "unliked";
-      console.log("not here");
     } else {
       heart.id = "liked";
-      console.log("yeah!! here");
     }
     heart.className = "absolute right-5";
     top.appendChild(heart);
