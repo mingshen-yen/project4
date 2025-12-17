@@ -114,8 +114,9 @@ likedMovs.forEach((element) => {
   p.className = "text-left text-white text-sm";
   form.appendChild(textContent);
   form.appendChild(btnSave);
-  form.appendChild(p);
   div.appendChild(form);
+  div.appendChild(p);
+
   console.log(btnSave, element);
 
   btnSave.addEventListener("click", (event) => {
@@ -134,13 +135,16 @@ likedMovs.forEach((element) => {
     p.innerText = `NOTE: ${newNote}`;
     p.className = "p-1 mt-4 text-left text-white text-sm bg-blue-900";
 
-    btnSave.remove();
-    textContent.remove();
-    const editBtn = document.createElement("button");
-    editBtn.innerText = "edit";
-    editBtn.className = "items-left px-2 py-1 mt-1 bg-blue-100 hover:bg-blue-400 text-black rounded";
-    editBtn.addEventListener("click", () => {});
-    form.appendChild(editBtn);
+    form.className = "hidden";
+    // add editBtn
+    // const editBtn = document.createElement("button");
+    // div.appendChild(editBtn);
+    // editBtn.innerText = "edit";
+    // editBtn.className = "items-left px-2 py-1 mt-1 bg-blue-100 hover:bg-blue-400 text-black rounded";
+    // editBtn.addEventListener("click", (event) => {
+    //   event.preventDefault();
+    //   form.className = "";
+    // });
   });
 });
 
