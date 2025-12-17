@@ -54,55 +54,22 @@ likedMovs.forEach((element) => {
 
   const Title = document.createElement("p");
   Title.innerHTML = element.title;
-<<<<<<< HEAD
-  Title.className =
-    "text-white font-bold group-hover:text-purple-300 text-left";
-  cardZ.appendChild(Title);
-=======
   Title.className = "text-white font-bold group-hover:text-purple-300 text-left";
   div.appendChild(Title);
->>>>>>> main
 
   const year = document.createElement("span");
   year.innerHTML = element.realeaseYear;
   year.className = "px-3 py-1 m-2 text-sm rounded-full text-violet-300 bg-violet-950";
   div.appendChild(year);
 
-<<<<<<< HEAD
-  const typeMovie = document.createElement("div");
-  typeMovie.innerHTML = element.type;
-  typeMovie.className =
-    "absolute bottom-4 right-5 rounded-full text-violet-300 bg-violet-950 pr-2 pl-2";
-  cardZ.appendChild(typeMovie);
-=======
   const language = document.createElement("span");
   language.innerHTML = element.language;
   language.className = "px-3 py-1 text-sm rounded-full text-violet-300 bg-violet-950";
   div.appendChild(language);
->>>>>>> main
 
   const top = document.createElement("div");
   const rating = document.createElement("span");
   rating.innerHTML = element.rate;
-<<<<<<< HEAD
-  rating.className =
-    "absolute top-4 left-5 rounded-full bg-amber-500  pl-2 pr-3  before:content-['\u2605']";
-  cardZ.appendChild(rating);
-
-  const heart = document.createElement("span");
-  heart.textContent = "\u2665";
-  heart.className =
-    "absolute top-3 right-4 text-5xl font-bold text-red-500 cursor-pointer hover:bg-red-500 rounded-xl";
-  cardZ.appendChild(heart);
-  //remove btn <- I think (remove btn).listener should be outside of this forEach, so i move this part to line 29: // revise fuction for remove btn
-  //   const removeBtn = document.getElementById("removeBtn");
-  //   removeBtn.addEventListener("click", () => {
-  //     cardZ.remove();
-  //     NoFav.classList.remove("hidden");
-  //     localStorage.removeItem("likedMovies");
-  //     likedMovs = [];
-  //   });
-=======
   rating.className = "absolute px-2 m-2.5 rounded-full bg-amber-500 before:content-['\u2605']";
   top.appendChild(rating);
 
@@ -125,7 +92,6 @@ likedMovs.forEach((element) => {
       numCards.remove();
     }
   });
->>>>>>> main
 
   // add notes for each favourite movie
   function getNote() {
