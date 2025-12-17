@@ -100,6 +100,7 @@ likedMovs.forEach((element) => {
   function setNote(favs) {
     localStorage.setItem("likedMovies", JSON.stringify(favs));
   }
+
   const form = document.createElement("form");
   const textContent = document.createElement("input");
   textContent.id = "userInput";
@@ -135,11 +136,11 @@ likedMovs.forEach((element) => {
 
     btnSave.remove();
     textContent.remove();
-    //     const rmBtn = document.createElement("button");
-    //     rmBtn.addEventListener("click", () => {
-    //       p.remove();
-    //     });
-    //     p.appendChild(rmBtn);
+    const editBtn = document.createElement("button");
+    editBtn.innerText = "edit";
+    editBtn.className = "items-left px-2 py-1 mt-1 bg-blue-100 hover:bg-blue-400 text-black rounded";
+    editBtn.addEventListener("click", () => {});
+    form.appendChild(editBtn);
   });
 });
 
