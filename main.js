@@ -33,7 +33,6 @@ const fetchpopularMovies = (url) => {
           note: "",
         };
         addCard(movieList);
-        searchSetup(movieList);
       });
     })
     .catch((error) => console.error("Error:", error));
@@ -118,6 +117,9 @@ function searchSetup(MovieArr) {
     console.log("Found movies:", searchResult);
     input.value = "";
     const container = document.getElementById("trendingMovies");
+    const containerPop = document.getElementById("popular");
+    if (!phrase) return;
+    containerPop.innerHTML = "";
     container.innerHTML = `<h1 class="text-4xl text-white font-bold">Search Result:</h1>`;
     searchResult.forEach((movie) => {
       container.innerHTML += `
