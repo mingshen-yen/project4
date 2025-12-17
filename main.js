@@ -2,7 +2,8 @@
 const searchResult = [];
 let likedMovs = [];
 const MovieTrendArr = [];
-const TMDBurl = "https://api.themoviedb.org/3/trending/movie/week?api_key=e88deaad2c5706752bff03d4decee143";
+const TMDBurl =
+  "https://api.themoviedb.org/3/trending/movie/week?api_key=e88deaad2c5706752bff03d4decee143";
 const apiToken = "e88deaad2c5706752bff03d4decee143";
 const page = 1;
 const apiURL = `https://api.themoviedb.org/3/discover/movie?api_key=${apiToken}&page=${page}`;
@@ -49,23 +50,27 @@ const addCard = (data, container, likedMovs) => {
     `;
   const Title = document.createElement("p");
   Title.innerHTML = data.title;
-  Title.className = "text-white font-bold group-hover:text-purple-300 text-left";
+  Title.className =
+    "text-white font-bold group-hover:text-purple-300 text-left";
   div.appendChild(Title);
 
   const year = document.createElement("span");
   year.innerHTML = data.realeaseYear;
-  year.className = "px-3 py-1 m-2 text-sm rounded-full text-violet-300 bg-violet-950";
+  year.className =
+    "px-3 py-1 m-2 text-sm rounded-full text-violet-300 bg-violet-950";
   div.appendChild(year);
 
   const language = document.createElement("span");
   language.innerHTML = data.language;
-  language.className = "px-3 py-1 text-sm rounded-full text-violet-300 bg-violet-950";
+  language.className =
+    "px-3 py-1 text-sm rounded-full text-violet-300 bg-violet-950";
   div.appendChild(language);
 
   const top = document.createElement("div");
   const rating = document.createElement("span");
   rating.innerHTML = data.rate;
-  rating.className = "absolute px-2 m-2.5 rounded-full bg-amber-500 before:content-['\u2605']";
+  rating.className =
+    "absolute px-2 m-2.5 rounded-full bg-amber-500 before:content-['\u2605']";
   top.appendChild(rating);
 
   const heart = document.createElement("span");
@@ -112,14 +117,48 @@ const clickLike = (heart, keyname, data) => {
 };
 
 fetchpopularMovies(apiURL);
-
+//---------------------------------------------------------------TRENDING-----------------------------
+//---------------------------------this lined should not be removed ----------------------------------
 const fetchMovies = async () => {
   const response = await fetch(TMDBurl);
   const data = await response.json();
   console.log(data);
+  createMovieCard(data);
+  searchSetup(MovieTrendArr);
+};
+
+fetchMovies();
+
+const createMovieCard = (data) => {
   makeMovieCards(data);
 };
-fetchMovies();
+//----------------------------------------------functions Zeinab--------------------------------------
+
+function searchSetup(MovieArr) {
+  const input = document.getElementById("searchInput");
+  const searchBtn = document.getElementById("searchBtn");
+  searchBtn.addEventListener("click", () => {
+    const phrase = input.value;
+    const foundMovies = searchArray(phrase, MovieArr);
+    console.log("Found movies:", searchResult);
+    input.value = "";
+    const container = document.getElementById("trendingMovies");
+    const containerPop = document.getElementById("popular");
+    if (!phrase) return;
+    containerPop.innerHTML = "";
+    container.innerHTML = `<h1 class="text-4xl text-white font-bold">Search Result:</h1>`;
+    searchResult.forEach((movie) => {
+      container.innerHTML += `
+    <div class="p-4   mb-2">
+         <h2 class="text-xl ">${movie.title}</h2>
+      <p class="text-left">Rating: ${movie.rate},Release Year: ${movie.realeaseYear} </p>
+    </div>
+  `;
+    });
+    if (searchResult.length == 0)
+      container.innerHTML += `<p class="text-left text-xl"> No movie has been found for your serach!</p>`;
+  });
+}
 
 function makeMovieCards(data) {
   const trendingCard = document.getElementById("card-container");
@@ -151,23 +190,27 @@ function makeMovieCards(data) {
     //adding info from object to card:
     const Title = document.createElement("p");
     Title.innerHTML = MovieObject.title;
-    Title.className = "text-white font-bold group-hover:text-purple-300 text-left";
+    Title.className =
+      "text-white font-bold group-hover:text-purple-300 text-left";
     cardZ.appendChild(Title);
 
     const year = document.createElement("span");
     year.innerHTML = MovieObject.realeaseYear;
-    year.className = "px-3 py-1 m-2 text-sm rounded-full text-violet-300 bg-violet-950";
+    year.className =
+      "px-3 py-1 m-2 text-sm rounded-full text-violet-300 bg-violet-950";
     cardZ.appendChild(year);
 
     const typeMovie = document.createElement("span");
     typeMovie.innerHTML = MovieObject.language;
-    typeMovie.className = "px-3 py-1 text-sm rounded-full text-violet-300 bg-violet-950";
+    typeMovie.className =
+      "px-3 py-1 text-sm rounded-full text-violet-300 bg-violet-950";
     cardZ.appendChild(typeMovie);
 
     const top = document.createElement("div");
     const rating = document.createElement("span");
     rating.innerHTML = MovieObject.rate;
-    rating.className = "absolute px-2 m-2.5 rounded-full bg-amber-500 before:content-['\u2605']";
+    rating.className =
+      "absolute px-2 m-2.5 rounded-full bg-amber-500 before:content-['\u2605']";
     top.appendChild(rating);
 
     const heart = document.createElement("span");
@@ -191,5 +234,49 @@ function makeMovieCards(data) {
     });
   });
 }
-//-------------------------------------------------------functions(zeinab)
+function doOnLikeSymbol(heart, movie) {
+  //change the color of heart
+  if (heart.textContent === "\u2661") {
+    heart.textContent = "\u2665";
+    heart.classList.remove("text-white", "text-3xl");
+    heart.classList.add("text-red-500", "text-5xl");
+  } else if (heart.textContent === "\u2665") {
+    heart.textContent = "\u2661";
+    heart.classList.remove("text-red-500", "text-5xl");
+    heart.classList.add("text-white", "text-3xl");
+  }
+
+  // make an array of liked movies
+  likedMovs = JSON.parse(localStorage.getItem("likedMovies")) || [];
+
+  const index = likedMovs.findIndex((m) => m.id === movie.id);
+
+  if (index === -1) {
+    likedMovs.push(movie);
+  } else {
+    likedMovs.splice(index, 1);
+  }
+  console.log(movie);
+
+  localStorage.setItem("likedMovies", JSON.stringify(likedMovs));
+}
 //localStorage.clear();
+
+//searching in titles:
+function searchArray(phrase, movieArray) {
+  phrase = phrase.toLowerCase().trim();
+  if (!phrase) return [];
+
+  const words = phrase.split(" ");
+  movieArray.forEach((movie) => {
+    const title = (movie.title || "").toLowerCase();
+
+    // check if any word matches
+    const found = words.every((word) => title.includes(word));
+    if (found) {
+      searchResult.push(movie);
+    }
+  });
+}
+//-----------------------------------------functions Zeinab---------------------------------------
+//----------------------------------------this needs to be here!---------------------------------------
