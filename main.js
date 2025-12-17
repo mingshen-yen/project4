@@ -116,6 +116,18 @@ function searchSetup() {
     const foundMovies = searchArray(phrase, MovieTrendArr);
     console.log("Found movies:", searchResult);
     input.value = "";
+    const container = document.getElementById("trendingMovies");
+    container.innerHTML = `<h1 class="text-4xl text-white font-bold">Search Result:</h1>`;
+    searchResult.forEach((movie) => {
+      container.innerHTML += `
+    <div class="p-4   mb-2">
+         <h2 class="text-xl ">${movie.title}</h2>
+      <p class="text-left">Rating: ${movie.rate},Release Year: ${movie.realeaseYear} </p>
+    </div>
+  `;
+    });
+    if (searchResult.length == 0)
+      container.innerHTML += `<p class="text-left text-xl"> No movie has been found for your serach!</p>`;
   });
 }
 
