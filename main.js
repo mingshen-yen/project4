@@ -112,38 +112,6 @@ const clickLike = (heart, keyname, data) => {
 
 fetchpopularMovies(apiURL);
 
-//searching in titles:
-function searchArray(phrase, movieArray, searchResultArray) {
-  phrase = phrase.toLowerCase().trim();
-  if (!phrase) return [];
-
-  const words = phrase.split(" ");
-  movieArray.forEach((movie) => {
-    console.log(movie.title);
-    const title = (movie.title || "").toLowerCase();
-
-    // check if any word matches
-    const found = words.every((word) => title.includes(word));
-    if (found) {
-      searchResult.push(movie);
-      // Save updated array back to localStorage
-      localStorage.setItem(searchResultArray, JSON.stringify(movie));
-    }
-  });
-}
-const input = document.getElementById("searchInput");
-const searchBtn = document.getElementById("searchBtn");
-searchBtn.addEventListener("click", () => {
-  const Movies = JSON.parse(localStorage.getItem("Movies")) || [];
-  const searchResultArray = JSON.parse(localStorage.getItem("searchResults")) || [];
-
-  console.log("hi");
-  const phrase = input.value;
-  console.log(phrase);
-  const searchResult = searchArray(phrase, Movies, searchResultArray);
-  console.log("Found movies:", searchResult);
-});
-
 //---------------------------------------------------------------TRENDING-----------------------------
 //---------------------------------this lined should not be removed ----------------------------------
 const fetchMovies = async () => {
