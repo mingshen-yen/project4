@@ -116,7 +116,10 @@ likedMovs.forEach((element) => {
   form.appendChild(btnSave);
   div.appendChild(form);
   div.appendChild(p);
-
+  const editBtn = document.createElement("button");
+  editBtn.innerText = "edit";
+  editBtn.className = "hidden";
+  div.appendChild(editBtn);
   console.log(btnSave, element);
 
   btnSave.addEventListener("click", (event) => {
@@ -137,14 +140,13 @@ likedMovs.forEach((element) => {
 
     form.className = "hidden";
     // add editBtn
-    // const editBtn = document.createElement("button");
-    // div.appendChild(editBtn);
-    // editBtn.innerText = "edit";
-    // editBtn.className = "items-left px-2 py-1 mt-1 bg-blue-100 hover:bg-blue-400 text-black rounded";
-    // editBtn.addEventListener("click", (event) => {
-    //   event.preventDefault();
-    //   form.className = "";
-    // });
+    editBtn.className = "items-left px-2 py-1 mt-1 bg-blue-100 hover:bg-blue-400 text-black rounded";
+    editBtn.addEventListener("click", (event) => {
+      event.preventDefault();
+      p.className = "hidden";
+      form.className = "";
+      editBtn.className = "hidden";
+    });
   });
 });
 
