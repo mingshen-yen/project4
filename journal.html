@@ -44,7 +44,7 @@
           @apply px-4 py-2.5 rounded-2xl text-sm font-semibold bg-purple-200 text-purple-800 hover:opacity-60;
         }
         .cards {
-          @apply flex flex-wrap text-center justify-center md:flex-row md:gap-2;
+          @apply grid gap-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5;
         }
         .card {
           @apply flex flex-col border border-gray-700 pb-2 m-1 rounded-lg md:w-55;
@@ -53,7 +53,7 @@
           @apply hover:scale-105 hover:border-purple-800 hover:text-purple-300 duration-300;
         }
         .icons {
-          @apply w-10 h-auto p-2 rounded-md;
+          @apply w-14 h-auto p-2;
         }
         .movie_img {
           @apply w-full rounded-t-lg;
@@ -83,14 +83,14 @@
       </section>
     </header>
     <main class="bg-color">
-      <div class="container p-4 flex">
+      <div class="container flex items-center">
         <img src="assets/imgs/favourite.png" alt="favourite_icon" class="icons" />
         <h3 id="Favorites">My Favourites</h3>
         <p id="FavoriteNum" class="p-1"></p>
         <button id="removeBtn" class="border rounded-xl px-4 ml-auto bg-blue-100">Remove all movies</button>
       </div>
       <section id="numContainer" class="container flex text-gray-800"></section>
-      <section id="favourites-container" class="container grid md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5">
+      <section id="favourites-container" class="container cards">
         <!-- add Personal Notes to each movie -->
       </section>
       <section class="container" id="middlePage">

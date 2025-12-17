@@ -29,9 +29,10 @@ const fetchpopularMovies = (url) => {
           path: `https://image.tmdb.org/t/p/w342${movie.poster_path}`,
           realeaseYear: movie.release_date.split("-")[0],
           type: movie.media_type,
+          language: movie.original_language.toUpperCase(),
           note: "",
         };
-        addCard(movieList);
+        addCard(movieList, "popular-container");
       });
     })
     .catch((error) => console.error("Error:", error));
@@ -47,20 +48,43 @@ const addToLocalStorage = (keyname, value) => {
   console.log("Updated array:", value);
 };
 
-const addCard = (data) => {
-  const Container = document.getElementById("popular-container");
+const addCard = (data, container) => {
+  const Container = document.getElementById(container);
   const div = document.createElement("div");
-  div.className = "card card-hover";
+  div.className =
+    "relative border border-gray-600 p-3 m-2 overflow-hidden rounded-xl duration-300 hover:scale-105 hover:border-purple-800 group";
   div.innerHTML += `
       <img src="${data.path}" alt="movie" class="movie_img" />
-      <h4>${data.title}</h4>
-      <span class= "thin text-base text-gray-400">${data.realeaseYear}</span>
     `;
+  const Title = document.createElement("p");
+  Title.innerHTML = data.title;
+  Title.className = "text-white font-bold group-hover:text-purple-300 text-left";
+  div.appendChild(Title);
+
+  const year = document.createElement("span");
+  year.innerHTML = data.realeaseYear;
+  year.className = "px-3 py-1 m-2 text-sm rounded-full text-violet-300 bg-violet-950";
+  div.appendChild(year);
+
+  const language = document.createElement("span");
+  language.innerHTML = data.language;
+  language.className = "px-3 py-1 text-sm rounded-full text-violet-300 bg-violet-950";
+  div.appendChild(language);
+
+  const top = document.createElement("div");
+  const rating = document.createElement("span");
+  rating.innerHTML = data.rate;
+  rating.className = "absolute px-2 m-2.5 rounded-full bg-amber-500 before:content-['\u2605']";
+  top.appendChild(rating);
+
   const heart = document.createElement("span");
   heart.textContent = "\u2665";
   heart.id = "unliked";
-  div.prepend(heart);
+  heart.className = "absolute right-5";
+  top.appendChild(heart);
+  div.prepend(top);
   Container.appendChild(div);
+
   heart.addEventListener("click", () => {
     clickLike(heart, "likedMovies", data);
   });
@@ -95,14 +119,9 @@ const fetchMovies = async () => {
   const response = await fetch(TMDBurl);
   const data = await response.json();
   console.log(data);
-  createMovieCard(data);
-};
-
-fetchMovies();
-
-const createMovieCard = (data) => {
   makeMovieCards(data);
 };
+fetchMovies();
 
 function makeMovieCards(data) {
   const trendingCard = document.getElementById("card-container");
@@ -110,11 +129,11 @@ function makeMovieCards(data) {
   data.results.forEach((element) => {
     const cardZ = document.createElement("div");
     cardZ.className =
-      "relative border border-gray-600 p-3 m-4 overflow-hidden rounded-xl max-w-xs transition transform duration-300 hover:scale-105 hover:border-purple-800 group";
+      "relative border border-gray-600 p-3 m-2 overflow-hidden rounded-xl duration-300 hover:scale-105 hover:border-purple-800 group";
     const posterMovie = document.createElement("img");
     posterMovie.src = `https://image.tmdb.org/t/p/w342${element.poster_path}`;
     posterMovie.alt = data.title;
-    posterMovie.className = "rounded-lg mb-8 w-full object-contain ";
+    posterMovie.className = "movie_img";
     cardZ.appendChild(posterMovie);
     trendingCard.appendChild(cardZ);
 
@@ -125,7 +144,8 @@ function makeMovieCards(data) {
       realeaseYear: element.release_date.split("-")[0],
       type: element.media_type,
       id: element.id,
-      path: posterMovie.src,
+      path: `https://image.tmdb.org/t/p/w342${element.poster_path}`,
+      language: element.original_language.toUpperCase(),
       note: "",
     };
 
@@ -138,54 +158,30 @@ function makeMovieCards(data) {
 
     const year = document.createElement("span");
     year.innerHTML = MovieObject.realeaseYear;
-    year.className = "text-gray-400 text-sm";
+    year.className = "px-3 py-1 m-2 text-sm rounded-full text-violet-300 bg-violet-950";
     cardZ.appendChild(year);
 
-    const typeMovie = document.createElement("div");
-    typeMovie.innerHTML = MovieObject.type;
-    typeMovie.className = "absolute bottom-4 right-5  rounded-full text-violet-300 bg-violet-950 pr-2 pl-2";
+    const typeMovie = document.createElement("span");
+    typeMovie.innerHTML = MovieObject.language;
+    typeMovie.className = "px-3 py-1 text-sm rounded-full text-violet-300 bg-violet-950";
     cardZ.appendChild(typeMovie);
 
-    const rating = document.createElement("div");
+    const top = document.createElement("div");
+    const rating = document.createElement("span");
     rating.innerHTML = MovieObject.rate;
-    rating.className = "absolute top-4 left-5  rounded-full bg-amber-500  pl-2 pr-3  before:content-['\u2605']";
-    cardZ.appendChild(rating);
+    rating.className = "absolute px-2 m-2.5 rounded-full bg-amber-500 before:content-['\u2605']";
+    top.appendChild(rating);
 
     const heart = document.createElement("span");
-    heart.textContent = "\u2661";
-    heart.className = "absolute top-3 right-4 text-3xl font-bold text-white cursor-pointer hover:bg-red-500 rounded-xl";
-    cardZ.appendChild(heart);
-
+    heart.textContent = "\u2665";
+    heart.id = "unliked";
+    heart.className = "absolute right-5";
+    top.appendChild(heart);
+    cardZ.prepend(top);
     heart.addEventListener("click", () => {
-      doOnLikeSymbol(heart, MovieObject);
+      clickLike(heart, "likedMovies", MovieObject);
     });
   });
-}
-function doOnLikeSymbol(heart, movie) {
-  //change the color of heart
-  if (heart.textContent === "\u2661") {
-    heart.textContent = "\u2665";
-    heart.classList.remove("text-white", "text-3xl");
-    heart.classList.add("text-red-500", "text-5xl");
-  } else if (heart.textContent === "\u2665") {
-    heart.textContent = "\u2661";
-    heart.classList.remove("text-red-500", "text-5xl");
-    heart.classList.add("text-white", "text-3xl");
-  }
-
-  // make an array of liked movies
-  likedMovs = JSON.parse(localStorage.getItem("likedMovies")) || [];
-
-  const index = likedMovs.findIndex((m) => m.id === movie.id);
-
-  if (index === -1) {
-    likedMovs.push(movie);
-  } else {
-    likedMovs.splice(index, 1);
-  }
-  console.log(movie);
-
-  localStorage.setItem("likedMovies", JSON.stringify(likedMovs));
 }
 //-------------------------------------------------------functions(zeinab)
 //localStorage.clear();
