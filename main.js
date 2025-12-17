@@ -8,19 +8,13 @@ const page = 1;
 const apiURL = `https://api.themoviedb.org/3/discover/movie?api_key=${apiToken}&page=${page}`;
 //-----------------------------
 
-// reload liked list from localStorage and keep heart in clicked situation
-window.addEventListener("load", function () {
-  const likedMovs = JSON.parse(localStorage.getItem("likedMovies"));
-  const Movies = JSON.parse(localStorage.getItem("Movies"));
-});
-
 const fetchpopularMovies = (url) => {
   fetch(url)
     .then((response) => response.json())
     .then((data) => {
-      console.log(data); // array of movies
       const Movies = data.results;
       addToLocalStorage("Movies", Movies);
+
       Movies.forEach((movie) => {
         const movieList = {
           id: movie.id,
@@ -32,23 +26,20 @@ const fetchpopularMovies = (url) => {
           language: movie.original_language.toUpperCase(),
           note: "",
         };
-        addCard(movieList, "popular-container");
+
+        const likedMovs = JSON.parse(localStorage.getItem("likedMovies")) || [];
+        addCard(movieList, "popular-container", likedMovs);
       });
     })
     .catch((error) => console.error("Error:", error));
 };
 
 const addToLocalStorage = (keyname, value) => {
-  //Get existing array from localStorage OR start with empty array
-  // let storedArray = JSON.parse(localStorage.getItem(keyname)) || [];
-  // Add new value at the beginning of the array
-  // storedArray.unshift(value);
-  // Save updated array back to localStorage
   localStorage.setItem(keyname, JSON.stringify(value));
   console.log("Updated array:", value);
 };
 
-const addCard = (data, container) => {
+const addCard = (data, container, likedMovs) => {
   const Container = document.getElementById(container);
   const div = document.createElement("div");
   div.className =
@@ -79,12 +70,19 @@ const addCard = (data, container) => {
 
   const heart = document.createElement("span");
   heart.textContent = "\u2665";
-  heart.id = "unliked";
   heart.className = "absolute right-5";
+
+  // check if the card is already in the Liked array
+  const index = likedMovs.findIndex((m) => m.id === data.id);
+  if (index === -1) {
+    heart.id = "unliked";
+  } else {
+    heart.id = "liked";
+  }
+
   top.appendChild(heart);
   div.prepend(top);
   Container.appendChild(div);
-
   heart.addEventListener("click", () => {
     clickLike(heart, "likedMovies", data);
   });
@@ -174,10 +172,20 @@ function makeMovieCards(data) {
 
     const heart = document.createElement("span");
     heart.textContent = "\u2665";
-    heart.id = "unliked";
+    // check if new liked card is already in the array or not
+    const likedMovs = JSON.parse(localStorage.getItem("likedMovies")) || [];
+    const index = likedMovs.findIndex((m) => m.id === element.id);
+    if (index === -1) {
+      heart.id = "unliked";
+      console.log("not here");
+    } else {
+      heart.id = "liked";
+      console.log("yeah!! here");
+    }
     heart.className = "absolute right-5";
     top.appendChild(heart);
     cardZ.prepend(top);
+
     heart.addEventListener("click", () => {
       clickLike(heart, "likedMovies", MovieObject);
     });
