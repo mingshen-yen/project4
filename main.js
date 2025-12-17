@@ -33,6 +33,7 @@ const fetchpopularMovies = (url) => {
           note: "",
         };
         addCard(movieList);
+        searchSetup(movieList);
       });
     })
     .catch((error) => console.error("Error:", error));
@@ -98,7 +99,7 @@ const fetchMovies = async () => {
   const data = await response.json();
   console.log(data);
   createMovieCard(data);
-  searchSetup();
+  searchSetup(MovieTrendArr);
 };
 
 fetchMovies();
@@ -108,12 +109,12 @@ const createMovieCard = (data) => {
 };
 //----------------------------------------------functions Zeinab--------------------------------------
 
-function searchSetup() {
+function searchSetup(MovieArr) {
   const input = document.getElementById("searchInput");
   const searchBtn = document.getElementById("searchBtn");
   searchBtn.addEventListener("click", () => {
     const phrase = input.value;
-    const foundMovies = searchArray(phrase, MovieTrendArr);
+    const foundMovies = searchArray(phrase, MovieArr);
     console.log("Found movies:", searchResult);
     input.value = "";
     const container = document.getElementById("trendingMovies");
